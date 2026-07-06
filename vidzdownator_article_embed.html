@@ -1,0 +1,505 @@
+<style>
+#vidzdownator-article {
+  --vdz-text: #eee5d0;
+  --vdz-muted: #9c927d;
+  --vdz-amber: #ff9f2f;
+  --vdz-amber-dim: #bd6a1f;
+  --vdz-green: #6fe272;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: 18px;
+  color: var(--vdz-text);
+  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, monospace;
+  background:
+    radial-gradient(circle at 50% 10%, rgba(255,159,47,0.14), transparent 32%),
+    linear-gradient(180deg, #26241f, #070706);
+}
+
+#vidzdownator-article,
+#vidzdownator-article * {
+  box-sizing: border-box;
+}
+
+#vidzdownator-article a {
+  color: inherit;
+}
+
+#vidzdownator-article .vdz-machine {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #504735;
+  border-radius: 18px;
+  padding: 18px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.1), transparent 16% 80%, rgba(0,0,0,0.7)),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 9px),
+    repeating-linear-gradient(0deg, rgba(255,159,47,0.018) 0 1px, transparent 1px 20px),
+    linear-gradient(180deg, #181713, #080807);
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,0.12),
+    inset 0 -4px 0 rgba(0,0,0,0.72),
+    0 24px 60px rgba(0,0,0,0.65);
+}
+
+#vidzdownator-article .vdz-machine:before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(255,159,47,0.08);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+#vidzdownator-article .vdz-screw {
+  position: absolute;
+  z-index: 2;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 25%, #b3a486 0%, #67583b 38%, #17130d 78%);
+  box-shadow: inset 0 -2px 2px rgba(0,0,0,0.7), 0 1px 2px rgba(255,255,255,0.13);
+}
+
+#vidzdownator-article .vdz-screw:after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 7px;
+  width: 10px;
+  height: 2px;
+  border-radius: 1px;
+  background: #21180f;
+  transform: rotate(32deg);
+}
+
+#vidzdownator-article .vdz-tl { left: 18px; top: 18px; }
+#vidzdownator-article .vdz-tr { right: 18px; top: 18px; }
+#vidzdownator-article .vdz-bl { left: 18px; bottom: 18px; }
+#vidzdownator-article .vdz-br { right: 18px; bottom: 18px; }
+
+#vidzdownator-article .vdz-top {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 148px 1fr auto;
+  gap: 14px;
+  align-items: stretch;
+}
+
+#vidzdownator-article .vdz-logo,
+#vidzdownator-article .vdz-screen,
+#vidzdownator-article .vdz-controls,
+#vidzdownator-article .vdz-panel {
+  border: 8px solid #0e0c09;
+  border-radius: 10px;
+  background: #0e0c09;
+  box-shadow:
+    inset 0 4px 9px rgba(0,0,0,0.88),
+    inset 0 0 0 1px rgba(255,159,47,0.06),
+    0 1px 0 rgba(255,255,255,0.16),
+    0 8px 16px rgba(0,0,0,0.34);
+}
+
+#vidzdownator-article .vdz-logo {
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(255,255,255,0.14), transparent 38%),
+    linear-gradient(145deg, rgba(255,255,255,0.08), transparent 40%, rgba(0,0,0,0.55)),
+    #050505;
+}
+
+#vidzdownator-article .vdz-logo img {
+  display: block;
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  border-radius: 5px;
+  filter: drop-shadow(0 8px 10px rgba(0,0,0,0.7));
+}
+
+#vidzdownator-article .vdz-screen,
+#vidzdownator-article .vdz-panel {
+  background:
+    repeating-linear-gradient(0deg, rgba(255,159,47,0.055) 0 1px, transparent 1px 3px),
+    radial-gradient(circle at 50% 0%, rgba(255,159,47,0.12), transparent 45%),
+    #150701;
+}
+
+#vidzdownator-article .vdz-screen {
+  min-height: 132px;
+  padding: 12px 18px;
+  color: var(--vdz-amber);
+  text-shadow: 0 0 7px rgba(255,159,47,0.36);
+}
+
+#vidzdownator-article .vdz-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin-bottom: 10px;
+  color: var(--vdz-amber-dim);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+#vidzdownator-article .vdz-meta span:before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--vdz-green);
+  box-shadow: 0 0 8px rgba(111,226,114,0.75);
+}
+
+#vidzdownator-article h1 {
+  margin: 2px 0 8px;
+  color: var(--vdz-text);
+  font-size: clamp(2rem, 5vw, 4.7rem);
+  line-height: 0.94;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+#vidzdownator-article .vdz-screen p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--vdz-amber);
+  font-size: clamp(0.98rem, 1.8vw, 1.25rem);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+#vidzdownator-article .vdz-controls {
+  min-width: 180px;
+  padding: 10px;
+  background: linear-gradient(180deg, #302b22, #17130f);
+}
+
+#vidzdownator-article .vdz-label {
+  margin: 0 0 8px;
+  color: var(--vdz-amber);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+#vidzdownator-article .vdz-lang {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+#vidzdownator-article button,
+#vidzdownator-article .vdz-cta a {
+  min-height: 42px;
+  border: 0;
+  border-radius: 7px;
+  cursor: pointer;
+  color: #171006;
+  background: linear-gradient(180deg, #d4c7a9, #9f8f70);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.45), inset 0 -4px 0 rgba(0,0,0,0.24), 0 4px 0 rgba(0,0,0,0.45);
+  font: 900 0.9rem "Courier New", monospace;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+#vidzdownator-article button.vdz-active,
+#vidzdownator-article .vdz-cta a.vdz-primary {
+  background: linear-gradient(180deg, #ffbd5d, #df8420);
+}
+
+#vidzdownator-article .vdz-leds {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  gap: 4px;
+  margin: 18px 0 4px;
+}
+
+#vidzdownator-article .vdz-leds i {
+  height: 8px;
+  border-radius: 2px;
+  background: #231508;
+  box-shadow: inset 0 1px 1px #000;
+}
+
+#vidzdownator-article .vdz-leds i:nth-child(-n+17) {
+  background: var(--vdz-amber);
+  box-shadow: 0 0 8px rgba(255,159,47,0.75);
+}
+
+#vidzdownator-article .vdz-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+#vidzdownator-article .vdz-panel {
+  padding: 18px;
+}
+
+#vidzdownator-article h2,
+#vidzdownator-article h3 {
+  margin: 0 0 12px;
+  color: var(--vdz-amber);
+  font-size: 1rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+#vidzdownator-article h3 {
+  margin-top: 24px;
+  color: var(--vdz-amber-dim);
+  font-size: 0.86rem;
+}
+
+#vidzdownator-article p,
+#vidzdownator-article li {
+  color: #efe1c6;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+#vidzdownator-article p {
+  margin: 0 0 15px;
+}
+
+#vidzdownator-article ul {
+  margin: 0 0 16px;
+  padding-left: 20px;
+}
+
+#vidzdownator-article li + li {
+  margin-top: 8px;
+}
+
+#vidzdownator-article .vdz-modules {
+  display: grid;
+  gap: 10px;
+}
+
+#vidzdownator-article .vdz-module {
+  padding: 12px;
+  border: 1px solid rgba(255,159,47,0.15);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(0,0,0,0.2)), #211d16;
+}
+
+#vidzdownator-article .vdz-module b {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--vdz-amber);
+  font-size: 0.86rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+#vidzdownator-article .vdz-module span,
+#vidzdownator-article .vdz-note {
+  color: var(--vdz-muted);
+}
+
+#vidzdownator-article .vdz-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+#vidzdownator-article .vdz-cta a {
+  display: inline-grid;
+  place-items: center;
+  min-width: 170px;
+  padding: 0 16px;
+  text-decoration: none;
+}
+
+#vidzdownator-article .vdz-note {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(255,159,47,0.22);
+  font-size: 0.88rem;
+}
+
+#vidzdownator-article [data-lang-panel] {
+  display: none;
+}
+
+#vidzdownator-article[data-lang="fr"] [data-lang-panel="fr"],
+#vidzdownator-article[data-lang="en"] [data-lang-panel="en"] {
+  display: block;
+}
+
+@media (max-width: 860px) {
+  #vidzdownator-article {
+    padding: 10px;
+  }
+
+  #vidzdownator-article .vdz-machine {
+    padding: 16px;
+  }
+
+  #vidzdownator-article .vdz-top,
+  #vidzdownator-article .vdz-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #vidzdownator-article .vdz-logo img {
+    width: 150px;
+    height: 150px;
+  }
+
+  #vidzdownator-article .vdz-controls {
+    min-width: 0;
+  }
+}
+</style>
+
+<section id="vidzdownator-article" data-lang="fr" aria-label="VIDZDOWNATOR article">
+  <div class="vdz-machine">
+    <div class="vdz-screw vdz-tl"></div>
+    <div class="vdz-screw vdz-tr"></div>
+    <div class="vdz-screw vdz-bl"></div>
+    <div class="vdz-screw vdz-br"></div>
+
+    <header class="vdz-top">
+      <div class="vdz-logo">
+        <img src="https://raw.githubusercontent.com/xavierfaltot/VIDZDOWNATOR/main/VIDZDOWNATOR_LOGO.png" alt="VIDZDOWNATOR">
+      </div>
+
+      <div class="vdz-screen">
+        <div class="vdz-meta">
+          <span>LOCAL INGEST</span>
+          <span>VIDZ IMPORTS</span>
+          <span>CODEX BUILD</span>
+        </div>
+        <div data-lang-panel="fr">
+          <h1>VIDZDOWNATOR</h1>
+          <p>Une machine locale pour aspirer des vidéos depuis Internet et les préparer proprement avant montage.</p>
+        </div>
+        <div data-lang-panel="en">
+          <h1>VIDZDOWNATOR</h1>
+          <p>A local ingest machine for pulling videos from the web and preparing them cleanly before editing.</p>
+        </div>
+      </div>
+
+      <nav class="vdz-controls" aria-label="Language">
+        <p class="vdz-label">LANGUAGE</p>
+        <div class="vdz-lang">
+          <button type="button" class="vdz-active" data-vdz-lang="fr">FR</button>
+          <button type="button" data-vdz-lang="en">EN</button>
+        </div>
+        <div class="vdz-leds" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+      </nav>
+    </header>
+
+    <section class="vdz-grid">
+      <article class="vdz-panel" data-lang-panel="fr">
+        <h2>À quoi sert VIDZDOWNATOR ?</h2>
+        <p>VIDZDOWNATOR est un petit boîtier logiciel dédié à une seule opération : récupérer des vidéos depuis des liens, les nommer proprement, extraire leurs métadonnées et les déposer dans un dossier d’import. Il ne remplace pas un logiciel de montage. Il agit avant le montage, comme une machine d’ingest.</p>
+        <p>L’utilisateur colle une ou plusieurs URLs, par exemple des reels Instagram, des vidéos YouTube ou des liens Vimeo. Le système détecte la source automatiquement. Il n’y a pas de menu compliqué : START lance le download, FOLDER ouvre le dossier, STOP interrompt la tâche.</p>
+
+        <h3>Comment ça marche ?</h3>
+        <ul>
+          <li>VIDZDOWNATOR lit les URLs collées dans le champ d’entrée.</li>
+          <li>Il détecte la source depuis l’adresse : Instagram, YouTube, Vimeo ou web générique.</li>
+          <li>Il télécharge chaque vidéo avec son titre, sa chaîne, sa date et sa miniature quand elles sont disponibles.</li>
+          <li>Il fabrique un nom de fichier lisible avec artiste, collection, mots-clés et titre.</li>
+          <li>Il range tout dans le dossier <strong>VIDZ IMPORTS</strong>, prêt pour un workflow de montage.</li>
+        </ul>
+
+        <h3>Pourquoi cette forme ?</h3>
+        <p>Le projet a été pensé comme une machine industrielle plutôt qu’une fenêtre d’application classique : façade noire, écrans ambrés, boutons physiques, LED de progression. L’idée est de donner une fonction précise à chaque outil, comme dans une régie broadcast ou une gamme d’instruments spécialisés.</p>
+
+        <h3>Comment il a été fabriqué</h3>
+        <p>VIDZDOWNATOR a été construit avec Codex comme compagnon de fabrication : conception de l’interface, prototypage Python, logique de téléchargement, création d’une app macOS locale, préparation du dépôt GitHub et documentation. Codex a servi d’atelier logiciel : on a avancé par essais, captures, corrections et décisions de design jusqu’à obtenir une machine partageable.</p>
+
+        <div class="vdz-cta">
+          <a class="vdz-primary" href="https://github.com/xavierfaltot/VIDZDOWNATOR">Voir GitHub</a>
+          <a href="https://github.com/xavierfaltot/VIDZDOWNATOR/archive/refs/heads/main.zip">Télécharger ZIP</a>
+        </div>
+
+        <p class="vdz-note">VIDZDOWNATOR utilise yt-dlp pour les téléchargements. Les utilisateurs doivent respecter les droits d’auteur, les conditions des plateformes et la loi locale.</p>
+      </article>
+
+      <article class="vdz-panel" data-lang-panel="en">
+        <h2>What is VIDZDOWNATOR for?</h2>
+        <p>VIDZDOWNATOR is a small software box dedicated to one operation: collecting videos from links, naming them cleanly, extracting metadata and placing them into an import folder. It does not replace editing software. It works before editing, like an ingest machine.</p>
+        <p>The user pastes one or many URLs, such as Instagram reels, YouTube videos or Vimeo links. The system detects the source automatically. There is no complicated menu: START downloads, FOLDER opens the destination folder, STOP interrupts the task.</p>
+
+        <h3>How does it work?</h3>
+        <ul>
+          <li>VIDZDOWNATOR reads the URLs pasted into the input field.</li>
+          <li>It detects the source from the address: Instagram, YouTube, Vimeo or generic web.</li>
+          <li>It downloads each video with title, channel, date and thumbnail when available.</li>
+          <li>It creates readable filenames with artist, collection, keywords and title.</li>
+          <li>It stores everything in <strong>VIDZ IMPORTS</strong>, ready for an editing workflow.</li>
+        </ul>
+
+        <h3>Why this shape?</h3>
+        <p>The project was designed as an industrial machine rather than a normal app window: black metal faceplate, amber screens, physical buttons and progress LEDs. The idea is to give every tool one precise job, like equipment in a broadcast control room or a family of specialised instruments.</p>
+
+        <h3>How it was made</h3>
+        <p>VIDZDOWNATOR was built with Codex as a fabrication partner: interface design, Python prototyping, download logic, creation of a local macOS app, GitHub packaging and documentation. Codex acted as a software workshop: we moved through tests, screenshots, corrections and design decisions until the machine became shareable.</p>
+
+        <div class="vdz-cta">
+          <a class="vdz-primary" href="https://github.com/xavierfaltot/VIDZDOWNATOR">View GitHub</a>
+          <a href="https://github.com/xavierfaltot/VIDZDOWNATOR/archive/refs/heads/main.zip">Download ZIP</a>
+        </div>
+
+        <p class="vdz-note">VIDZDOWNATOR uses yt-dlp for downloads. Users must respect copyright, platform terms and local law.</p>
+      </article>
+
+      <aside class="vdz-panel">
+        <div data-lang-panel="fr">
+          <h2>Schéma de la machine</h2>
+          <div class="vdz-modules">
+            <div class="vdz-module"><b>INPUT</b><span>Coller une liste d’URLs, une par ligne.</span></div>
+            <div class="vdz-module"><b>AUTO SOURCE</b><span>Détection automatique depuis le domaine du lien.</span></div>
+            <div class="vdz-module"><b>DOWNLOAD</b><span>Récupération de la vidéo, de la miniature et des métadonnées.</span></div>
+            <div class="vdz-module"><b>VIDZ IMPORTS</b><span>Dossier de sortie propre, prêt à être surveillé par un autre outil.</span></div>
+          </div>
+        </div>
+        <div data-lang-panel="en">
+          <h2>Machine Map</h2>
+          <div class="vdz-modules">
+            <div class="vdz-module"><b>INPUT</b><span>Paste a list of URLs, one per line.</span></div>
+            <div class="vdz-module"><b>AUTO SOURCE</b><span>Automatic detection from the link domain.</span></div>
+            <div class="vdz-module"><b>DOWNLOAD</b><span>Retrieves video, thumbnail and metadata.</span></div>
+            <div class="vdz-module"><b>VIDZ IMPORTS</b><span>Clean output folder, ready to be watched by another tool.</span></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </div>
+</section>
+
+<script>
+(function () {
+  const root = document.getElementById("vidzdownator-article");
+  if (!root) return;
+  const buttons = root.querySelectorAll("[data-vdz-lang]");
+  function setLanguage(lang) {
+    root.setAttribute("data-lang", lang);
+    buttons.forEach((button) => {
+      button.classList.toggle("vdz-active", button.dataset.vdzLang === lang);
+    });
+  }
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => setLanguage(button.dataset.vdzLang));
+  });
+})();
+</script>
