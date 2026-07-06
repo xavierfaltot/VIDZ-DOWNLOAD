@@ -20,6 +20,10 @@
   box-sizing: border-box;
 }
 
+#vidzdownator-article [hidden] {
+  display: none !important;
+}
+
 #vidzdownator-article a {
   color: inherit;
 }
@@ -173,6 +177,28 @@
   font-size: clamp(0.98rem, 1.8vw, 1.25rem);
   font-weight: 800;
   line-height: 1.45;
+}
+
+#vidzdownator-article .vdz-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+#vidzdownator-article .vdz-hero-actions a {
+  display: inline-grid;
+  min-height: 42px;
+  place-items: center;
+  border-radius: 7px;
+  padding: 0 16px;
+  color: #171006;
+  background: linear-gradient(180deg, #ffbd5d, #df8420);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.45), inset 0 -4px 0 rgba(0,0,0,0.24), 0 4px 0 rgba(0,0,0,0.45);
+  font: 900 0.9rem "Courier New", monospace;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  text-transform: uppercase;
 }
 
 #vidzdownator-article .vdz-controls {
@@ -385,10 +411,16 @@
         <div data-lang-panel="fr">
           <h1>VIDZDOWNATOR</h1>
           <p>Une machine locale pour aspirer des vidéos depuis Internet et les préparer proprement avant montage.</p>
+          <div class="vdz-hero-actions">
+            <a href="https://github.com/xavierfaltot/VIDZDOWNATOR/archive/refs/heads/main.zip">Télécharger l’app</a>
+          </div>
         </div>
-        <div data-lang-panel="en">
+        <div data-lang-panel="en" hidden>
           <h1>VIDZDOWNATOR</h1>
           <p>A local ingest machine for pulling videos from the web and preparing them cleanly before editing.</p>
+          <div class="vdz-hero-actions">
+            <a href="https://github.com/xavierfaltot/VIDZDOWNATOR/archive/refs/heads/main.zip">Download the app</a>
+          </div>
         </div>
       </div>
 
@@ -435,7 +467,7 @@
         <p class="vdz-note">VIDZDOWNATOR utilise yt-dlp pour les téléchargements. Les utilisateurs doivent respecter les droits d’auteur, les conditions des plateformes et la loi locale.</p>
       </article>
 
-      <article class="vdz-panel" data-lang-panel="en">
+      <article class="vdz-panel" data-lang-panel="en" hidden>
         <h2>What is VIDZDOWNATOR for?</h2>
         <p>VIDZDOWNATOR is a small software box dedicated to one operation: collecting videos from links, naming them cleanly, extracting metadata and placing them into an import folder. It does not replace editing software. It works before editing, like an ingest machine.</p>
         <p>The user pastes one or many URLs, such as Instagram reels, YouTube videos or Vimeo links. The system detects the source automatically. There is no complicated menu: START downloads, FOLDER opens the destination folder, STOP interrupts the task.</p>
@@ -473,7 +505,7 @@
             <div class="vdz-module"><b>VIDZ IMPORTS</b><span>Dossier de sortie propre, prêt à être surveillé par un autre outil.</span></div>
           </div>
         </div>
-        <div data-lang-panel="en">
+        <div data-lang-panel="en" hidden>
           <h2>Machine Map</h2>
           <div class="vdz-modules">
             <div class="vdz-module"><b>INPUT</b><span>Paste a list of URLs, one per line.</span></div>
@@ -492,12 +524,17 @@
   const root = document.getElementById("vidzdownator-article");
   if (!root) return;
   const buttons = root.querySelectorAll("[data-vdz-lang]");
+  const panels = root.querySelectorAll("[data-lang-panel]");
   function setLanguage(lang) {
     root.setAttribute("data-lang", lang);
+    panels.forEach((panel) => {
+      panel.hidden = panel.dataset.langPanel !== lang;
+    });
     buttons.forEach((button) => {
       button.classList.toggle("vdz-active", button.dataset.vdzLang === lang);
     });
   }
+  setLanguage(root.getAttribute("data-lang") || "fr");
   buttons.forEach((button) => {
     button.addEventListener("click", () => setLanguage(button.dataset.vdzLang));
   });
