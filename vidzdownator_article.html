@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIDZDOWNATOR - Article FR/EN</title>
+<meta name="description" content="VIDZDOWNATOR est une machine locale d'ingest video pour telecharger, nommer et preparer des videos Internet.">
+<style>
+:root {
+  color-scheme: dark;
+  --case: #080806;
+  --case-2: #161410;
+  --panel: #2a251c;
+  --stroke: #514938;
+  --text: #eee5d0;
+  --muted: #8f8674;
+  --amber: #ff9f2f;
+  --amber-dim: #bd6a1f;
+  --screen: #150701;
+  --screen-deep: #070302;
+  --green: #6fe272;
+  --red: #bd3b32;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, monospace;
+  background:
+    radial-gradient(circle at 50% 22%, rgba(255,159,47,0.14), transparent 30%),
+    linear-gradient(180deg, #292824 0%, #11100e 48%, #030303 100%);
+}
+
+a { color: inherit; }
+
+.page {
+  width: min(1180px, calc(100vw - 28px));
+  margin: 0 auto;
+  padding: 28px 0 40px;
+}
+
+.machine {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #4b4435;
+  border-radius: 18px;
+  padding: 18px;
+  background:
+    linear-gradient(90deg, rgba(255,159,47,0.05), transparent 8% 92%, rgba(255,159,47,0.04)),
+    linear-gradient(145deg, rgba(255,255,255,0.1), transparent 14% 80%, rgba(0,0,0,0.62)),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.018) 0 1px, transparent 1px 9px),
+    repeating-linear-gradient(0deg, rgba(255,159,47,0.016) 0 1px, transparent 1px 21px),
+    linear-gradient(180deg, #171612, #090908);
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,0.11),
+    inset 0 -4px 0 rgba(0,0,0,0.72),
+    0 28px 70px rgba(0,0,0,0.72),
+    0 8px 0 #020202;
+}
+
+.machine::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(255,159,47,0.08);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.screw {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 25%, #b3a486 0%, #67583b 38%, #17130d 78%);
+  box-shadow: inset 0 -2px 2px rgba(0,0,0,0.7), 0 1px 2px rgba(255,255,255,0.13);
+  z-index: 2;
+}
+
+.screw::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 7px;
+  width: 10px;
+  height: 2px;
+  border-radius: 1px;
+  background: #21180f;
+  transform: rotate(32deg);
+}
+
+.tl { left: 18px; top: 18px; }
+.tr { right: 18px; top: 18px; }
+.bl { left: 18px; bottom: 18px; }
+.br { right: 18px; bottom: 18px; }
+
+.topbar {
+  position: relative;
+  display: grid;
+  grid-template-columns: 148px 1fr auto;
+  align-items: stretch;
+  gap: 14px;
+  z-index: 1;
+}
+
+.logo-plate,
+.screen,
+.control-bank,
+.article-panel {
+  border: 8px solid #0e0c09;
+  border-radius: 10px;
+  background: #0e0c09;
+  box-shadow:
+    inset 0 4px 9px rgba(0,0,0,0.88),
+    inset 0 0 0 1px rgba(255,159,47,0.06),
+    0 1px 0 rgba(255,255,255,0.16),
+    0 8px 16px rgba(0,0,0,0.34);
+}
+
+.logo-plate {
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(255,255,255,0.14), transparent 38%),
+    linear-gradient(145deg, rgba(255,255,255,0.08), transparent 40%, rgba(0,0,0,0.55)),
+    #050505;
+}
+
+.logo-plate img {
+  display: block;
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  border-radius: 5px;
+  filter: drop-shadow(0 8px 10px rgba(0,0,0,0.7));
+}
+
+.screen {
+  min-height: 132px;
+  padding: 12px 18px;
+  color: var(--amber);
+  text-shadow: 0 0 7px rgba(255,159,47,0.36);
+  background:
+    repeating-linear-gradient(0deg, rgba(255,159,47,0.055) 0 1px, transparent 1px 3px),
+    radial-gradient(circle at 50% 0%, rgba(255,159,47,0.12), transparent 45%),
+    var(--screen);
+}
+
+.screen h1 {
+  margin: 2px 0 8px;
+  color: var(--text);
+  font-size: clamp(2rem, 5vw, 4.7rem);
+  line-height: 0.94;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.screen p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--amber);
+  font-size: clamp(0.98rem, 1.8vw, 1.25rem);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.screen .meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin-bottom: 10px;
+  color: var(--amber-dim);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.screen .meta span::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px rgba(111,226,114,0.75);
+}
+
+.control-bank {
+  min-width: 180px;
+  padding: 10px;
+  background: linear-gradient(180deg, #302b22, #17130f);
+}
+
+.lang-label {
+  margin: 0 0 8px;
+  color: var(--amber);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.lang-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.lang-toggle button,
+.cta-row a {
+  min-height: 42px;
+  border: 0;
+  border-radius: 7px;
+  cursor: pointer;
+  color: #171006;
+  background: linear-gradient(180deg, #d4c7a9, #9f8f70);
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,0.45),
+    inset 0 -4px 0 rgba(0,0,0,0.24),
+    0 4px 0 rgba(0,0,0,0.45);
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.lang-toggle button.active,
+.cta-row a.primary {
+  background: linear-gradient(180deg, #ffbd5d, #df8420);
+}
+
+.lang-toggle button:active,
+.cta-row a:active {
+  transform: translateY(3px);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.32), 0 1px 0 rgba(0,0,0,0.45);
+}
+
+.article-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.article-panel {
+  padding: 18px;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,159,47,0.035) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, #211b14, #100c08);
+}
+
+.article-panel h2,
+.article-panel h3 {
+  margin: 0 0 12px;
+  color: var(--amber);
+  font-size: 1rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.article-panel h3 {
+  margin-top: 24px;
+  color: var(--amber-dim);
+  font-size: 0.86rem;
+}
+
+.article-panel p,
+.article-panel li {
+  color: #efe1c6;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.article-panel p {
+  margin: 0 0 15px;
+}
+
+.article-panel ul {
+  margin: 0 0 16px;
+  padding-left: 20px;
+}
+
+.article-panel li + li {
+  margin-top: 8px;
+}
+
+.module-list {
+  display: grid;
+  gap: 10px;
+}
+
+.module {
+  padding: 12px;
+  border: 1px solid rgba(255,159,47,0.15);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.055), rgba(0,0,0,0.2)),
+    #211d16;
+}
+
+.module b {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--amber);
+  font-size: 0.86rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.module span {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.led-strip {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  gap: 4px;
+  margin: 18px 0 4px;
+}
+
+.led-strip i {
+  height: 8px;
+  border-radius: 2px;
+  background: #231508;
+  box-shadow: inset 0 1px 1px #000;
+}
+
+.led-strip i:nth-child(-n+17) {
+  background: var(--amber);
+  box-shadow: 0 0 8px rgba(255,159,47,0.75);
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.cta-row a {
+  display: inline-grid;
+  place-items: center;
+  min-width: 170px;
+  padding: 0 16px;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.source-note {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(255,159,47,0.22);
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+[data-lang] { display: none; }
+body.lang-fr [data-lang="fr"] { display: block; }
+body.lang-en [data-lang="en"] { display: block; }
+
+@media (max-width: 860px) {
+  body { overflow: auto; }
+  .page { width: min(100vw - 20px, 640px); padding-top: 12px; }
+  .machine { padding: 16px; }
+  .topbar,
+  .article-grid {
+    grid-template-columns: 1fr;
+  }
+  .logo-plate img {
+    width: 150px;
+    height: 150px;
+  }
+  .control-bank {
+    min-width: 0;
+  }
+  .screen h1 {
+    font-size: clamp(2rem, 12vw, 3.4rem);
+  }
+}
+</style>
+</head>
+<body class="lang-fr">
+<main class="page">
+  <section class="machine" aria-label="VIDZDOWNATOR article">
+    <div class="screw tl"></div>
+    <div class="screw tr"></div>
+    <div class="screw bl"></div>
+    <div class="screw br"></div>
+
+    <header class="topbar">
+      <div class="logo-plate">
+        <img src="VIDZDOWNATOR_LOGO.png" alt="VIDZDOWNATOR">
+      </div>
+
+      <div class="screen">
+        <div class="meta">
+          <span>LOCAL INGEST</span>
+          <span>VIDZ IMPORTS</span>
+          <span>CODEX BUILD</span>
+        </div>
+        <div data-lang="fr">
+          <h1>VIDZDOWNATOR</h1>
+          <p>Une machine locale pour aspirer des vidéos depuis Internet et les préparer proprement avant montage.</p>
+        </div>
+        <div data-lang="en">
+          <h1>VIDZDOWNATOR</h1>
+          <p>A local ingest machine for pulling videos from the web and preparing them cleanly before editing.</p>
+        </div>
+      </div>
+
+      <nav class="control-bank" aria-label="Language">
+        <p class="lang-label">LANGUAGE</p>
+        <div class="lang-toggle">
+          <button type="button" class="active" data-set-lang="fr">FR</button>
+          <button type="button" data-set-lang="en">EN</button>
+        </div>
+        <div class="led-strip" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+      </nav>
+    </header>
+
+    <section class="article-grid">
+      <article class="article-panel" data-lang="fr">
+        <h2>À quoi sert VIDZDOWNATOR ?</h2>
+        <p>VIDZDOWNATOR est un petit boîtier logiciel dédié à une seule opération : récupérer des vidéos depuis des liens, les nommer proprement, extraire leurs métadonnées et les déposer dans un dossier d’import. Il ne remplace pas un logiciel de montage. Il agit avant le montage, comme une machine d’ingest.</p>
+        <p>L’utilisateur colle une ou plusieurs URLs, par exemple des reels Instagram, des vidéos YouTube ou des liens Vimeo. Le système détecte la source automatiquement. Il n’y a pas de menu compliqué : START lance le download, FOLDER ouvre le dossier, STOP interrompt la tâche.</p>
+
+        <h3>Comment ça marche ?</h3>
+        <ul>
+          <li>VIDZDOWNATOR lit les URLs collées dans le champ d’entrée.</li>
+          <li>Il détecte la source depuis l’adresse : Instagram, YouTube, Vimeo ou web générique.</li>
+          <li>Il télécharge chaque vidéo avec son titre, sa chaîne, sa date et sa miniature quand elles sont disponibles.</li>
+          <li>Il fabrique un nom de fichier lisible avec artiste, collection, mots-clés et titre.</li>
+          <li>Il range tout dans le dossier <strong>VIDZ IMPORTS</strong>, prêt pour un workflow de montage.</li>
+        </ul>
+
+        <h3>Pourquoi cette forme ?</h3>
+        <p>Le projet a été pensé comme une machine industrielle plutôt qu’une fenêtre d’application classique : façade noire, écrans ambrés, boutons physiques, LED de progression. L’idée est de donner une fonction précise à chaque outil, comme dans une régie broadcast ou une gamme d’instruments spécialisés.</p>
+
+        <h3>Comment il a été fabriqué</h3>
+        <p>VIDZDOWNATOR a été construit avec Codex comme compagnon de fabrication : conception de l’interface, prototypage Python, logique de téléchargement, création d’une app macOS locale, préparation du dépôt GitHub et documentation. Codex a servi d’atelier logiciel : on a avancé par essais, captures, corrections et décisions de design jusqu’à obtenir une machine partageable.</p>
+
+        <div class="cta-row">
+          <a class="primary" href="https://github.com/xavierfaltot/VIDZDOWNATOR">Voir GitHub</a>
+          <a href="https://github.com/xavierfaltot/VIDZDOWNATOR/archive/refs/heads/main.zip">Télécharger ZIP</a>
+        </div>
+
+        <p class="source-note">VIDZDOWNATOR utilise yt-dlp pour les téléchargements. Les utilisateurs doivent respecter les droits d’auteur, les conditions des plateformes et la loi locale.</p>
+      </article>
+
+      <article class="article-panel" data-lang="en">
+        <h2>What is VIDZDOWNATOR for?</h2>
+        <p>VIDZDOWNATOR is a small software box dedicated to one operation: collecting videos from links, naming them cleanly, extracting metadata and placing them into an import folder. It does not replace editing software. It works before editing, like an ingest machine.</p>
+        <p>The user pastes one or many URLs, such as Instagram reels, YouTube videos or Vimeo links. The system detects the source automatically. There is no complicated menu: START downloads, FOLDER opens the destination folder, STOP interrupts the task.</p>
+
+        <h3>How does it work?</h3>
+        <ul>
+          <li>VIDZDOWNATOR reads the URLs pasted into the input field.</li>
+          <li>It detects the source from the address: Instagram, YouTube, Vimeo or generic web.</li>
+          <li>It downloads each video with title, channel, date and thumbnail when available.</li>
+          <li>It creates readable filenames with artist, collection, keywords and title.</li>
+          <li>It stores everything in <strong>VIDZ IMPORTS</strong>, ready for an editing workflow.</li>
+        </ul>
+
+        <h3>Why this shape?</h3>
+        <p>The project was designed as an industrial machine rather than a normal app window: black metal faceplate, amber screens, physical buttons and progress LEDs. The idea is to give every tool one precise job, like equipment in a broadcast control room or a family of specialised instruments.</p>
+
+        <h3>How it was made</h3>
+        <p>VIDZDOWNATOR was built with Codex as a fabrication partner: interface design, Python prototyping, download logic, creation of a local macOS app, GitHub packaging and documentation. Codex acted as a software workshop: we moved through tests, screenshots, corrections and design decisions until the machine became shareable.</p>
+
+        <div class="cta-row">
+          <a class="primary" href="https://github.com/xavierfaltot/VIDZDOWNATOR">View GitHub</a>
+          <a href="https://github.com/xavierfaltot/VIDZDOWNATOR/archive/refs/heads/main.zip">Download ZIP</a>
+        </div>
+
+        <p class="source-note">VIDZDOWNATOR uses yt-dlp for downloads. Users must respect copyright, platform terms and local law.</p>
+      </article>
+
+      <aside class="article-panel">
+        <div data-lang="fr">
+          <h2>Schéma de la machine</h2>
+          <div class="module-list">
+            <div class="module"><b>INPUT</b><span>Coller une liste d’URLs, une par ligne.</span></div>
+            <div class="module"><b>AUTO SOURCE</b><span>Détection automatique depuis le domaine du lien.</span></div>
+            <div class="module"><b>DOWNLOAD</b><span>Récupération de la vidéo, de la miniature et des métadonnées.</span></div>
+            <div class="module"><b>VIDZ IMPORTS</b><span>Dossier de sortie propre, prêt à être surveillé par un autre outil.</span></div>
+          </div>
+        </div>
+        <div data-lang="en">
+          <h2>Machine Map</h2>
+          <div class="module-list">
+            <div class="module"><b>INPUT</b><span>Paste a list of URLs, one per line.</span></div>
+            <div class="module"><b>AUTO SOURCE</b><span>Automatic detection from the link domain.</span></div>
+            <div class="module"><b>DOWNLOAD</b><span>Retrieves video, thumbnail and metadata.</span></div>
+            <div class="module"><b>VIDZ IMPORTS</b><span>Clean output folder, ready to be watched by another tool.</span></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </section>
+</main>
+
+<script>
+const buttons = document.querySelectorAll("[data-set-lang]");
+function setLanguage(lang) {
+  document.body.classList.toggle("lang-fr", lang === "fr");
+  document.body.classList.toggle("lang-en", lang === "en");
+  document.documentElement.lang = lang === "fr" ? "fr" : "en";
+  buttons.forEach((button) => button.classList.toggle("active", button.dataset.setLang === lang));
+}
+buttons.forEach((button) => button.addEventListener("click", () => setLanguage(button.dataset.setLang)));
+</script>
+</body>
+</html>
