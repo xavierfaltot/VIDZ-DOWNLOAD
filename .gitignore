@@ -1,0 +1,22 @@
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+VIDZ IMPORTS/
+VIDZ_COOKIES.txt
+
+*.mp4
+*.mov
+*.m4v
+*.mkv
+*.webm
+*.jpg
+*.jpeg
+*.png
+!VIDZDOWNATOR_LOGO.png
+
+*.swp
+*.tmp
