@@ -12,9 +12,10 @@ It downloads videos from URLs, detects the source automatically, retrieves metad
 - Batch downloads with progress LEDs
 - Configurable output folder
 - Instagram carousel expansion: a post with several videos is queued item by item
+- Local ANALYZE button that adds visual tags to the latest filename
 - Metadata JSON next to each video
 - Thumbnail download when available
-- Filename format with artist, collection, keywords and title
+- Filename format with artist, collection, your keywords, title, and optional analysis tags
 - Local browser interface
 - No cloud backend
 
@@ -53,6 +54,18 @@ Paste a path into `BOOKMARKS PATH`, for example:
 ```
 
 Supported bookmark sources include `.html`, `.htm`, `.json`, `.txt`, `.url`, and `.webloc` files. If you give a folder, VIDZDOWNLOAD scans supported files inside it and extracts every URL it finds.
+
+## Local Analysis Tags
+
+After a download, press `ANALYZE`.
+
+VIDZDOWNLOAD samples the video locally with ffmpeg and appends tags to the filename, for example:
+
+```text
+APHEX_TWIN__WARP__YOUR_TAGS__WINDOWLICKER__COLOR_ORANGE__FACE__FAST_MOTION__WIDE.mp4
+```
+
+The analysis can add tags for dominant color, brightness, motion speed, format, duration, high FPS, and face detection when OpenCV is available. It also updates the `.json` metadata next to the video.
 
 ## macOS App
 
