@@ -1,0 +1,89 @@
+<meta charset="UTF-8">
+<div style="max-width:1120px;margin:0 auto;padding:18px;background:#0c0c0a;color:#eee5d0;font-family:'Courier New',monospace;border:1px solid #4b4435;border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.45);">
+  <div style="padding:18px;border-radius:14px;background:linear-gradient(180deg,#181713,#080807);border:1px solid rgba(255,159,47,.18);">
+    <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:18px;">
+      <div style="width:150px;min-width:150px;padding:10px;background:#050505;border:8px solid #0e0c09;border-radius:10px;box-shadow:inset 0 4px 9px rgba(0,0,0,.85),0 8px 16px rgba(0,0,0,.34);">
+        <img src="https://raw.githubusercontent.com/xavierfaltot/VIDZDOWNLOAD/main/VIDZDOWNLOAD_LOGO.png" alt="VIDZDOWNLOAD" style="display:block;width:100%;height:auto;border-radius:5px;">
+      </div>
+
+      <div style="flex:1;min-width:280px;padding:18px;background:repeating-linear-gradient(0deg,rgba(255,159,47,.07) 0 1px,transparent 1px 3px),#150701;border:8px solid #0e0c09;border-radius:10px;box-shadow:inset 0 4px 9px rgba(0,0,0,.85),0 8px 16px rgba(0,0,0,.34);">
+        <p style="margin:0 0 8px;color:#bd6a1f;font-size:13px;font-weight:900;letter-spacing:2px;text-transform:uppercase;">LOCAL INGEST · VIDZ IMPORTS · CODEX BUILD</p>
+        <h1 style="margin:0 0 12px;color:#eee5d0;font-size:48px;line-height:1;text-transform:uppercase;letter-spacing:0;">VIDZDOWNLOAD</h1>
+        <p style="margin:0 0 16px;color:#ff9f2f;font-size:18px;line-height:1.45;font-weight:800;">Une machine locale pour aspirer des vidéos depuis Internet et les préparer proprement avant montage.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="https://github.com/xavierfaltot/VIDZDOWNLOAD/archive/refs/heads/main.zip" style="display:inline-block;padding:13px 18px;border-radius:7px;background:linear-gradient(180deg,#ffbd5d,#df8420);color:#171006;text-decoration:none;font-weight:900;letter-spacing:1px;text-transform:uppercase;box-shadow:inset 0 2px 0 rgba(255,255,255,.45),inset 0 -4px 0 rgba(0,0,0,.24),0 4px 0 rgba(0,0,0,.45);">Télécharger l’app</a>
+          <a href="https://github.com/xavierfaltot/VIDZDOWNLOAD" style="display:inline-block;padding:13px 18px;border-radius:7px;background:linear-gradient(180deg,#d4c7a9,#9f8f70);color:#171006;text-decoration:none;font-weight:900;letter-spacing:1px;text-transform:uppercase;box-shadow:inset 0 2px 0 rgba(255,255,255,.45),inset 0 -4px 0 rgba(0,0,0,.24),0 4px 0 rgba(0,0,0,.45);">Voir GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin:0 0 18px;padding:14px;background:#211d16;border:1px solid rgba(255,159,47,.16);border-radius:10px;">
+      <p style="margin:0 0 10px;color:#ff9f2f;font-size:13px;font-weight:900;letter-spacing:2px;text-transform:uppercase;">LANGUAGE</p>
+      <p style="margin:0;color:#9c927d;font-size:14px;line-height:1.5;">WordPress bloque parfois le JavaScript dans les articles. Cette version utilise deux panneaux natifs : ouvrez FR ou EN.</p>
+    </div>
+
+    <details id="vdz-fr" open style="margin:0 0 16px;padding:0;background:#120a05;border:8px solid #0e0c09;border-radius:10px;box-shadow:inset 0 4px 9px rgba(0,0,0,.85),0 8px 16px rgba(0,0,0,.34);">
+      <summary style="cursor:pointer;list-style:none;padding:14px 18px;color:#171006;background:linear-gradient(180deg,#ffbd5d,#df8420);font-weight:900;letter-spacing:2px;text-transform:uppercase;border-radius:2px;">FR · Article en français</summary>
+      <div style="padding:22px;background:repeating-linear-gradient(0deg,rgba(255,159,47,.045) 0 1px,transparent 1px 3px),#150701;">
+        <h2 style="margin:0 0 14px;color:#ff9f2f;font-size:25px;line-height:1.2;text-transform:uppercase;">À quoi sert VIDZDOWNLOAD ?</h2>
+        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">VIDZDOWNLOAD est un petit boîtier logiciel dédié à une seule opération : récupérer des vidéos depuis des liens, les nommer proprement, extraire leurs métadonnées et les déposer dans un dossier d’import. Il ne remplace pas un logiciel de montage. Il agit avant le montage, comme une machine d’ingest.</p>
+        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">L’utilisateur colle une ou plusieurs URLs, par exemple des reels Instagram, des posts carrousel, des vidéos YouTube ou des liens Vimeo. Le système détecte la source automatiquement. Il n’y a pas de menu compliqué : START lance le download, FOLDER ouvre le dossier, STOP interrompt la tâche.</p>
+
+        <h3 style="margin:26px 0 12px;color:#bd6a1f;font-size:18px;text-transform:uppercase;letter-spacing:2px;">Comment ça marche ?</h3>
+        <ul style="margin:0 0 18px;padding-left:22px;color:#efe1c6;font-size:17px;line-height:1.75;">
+          <li>VIDZDOWNLOAD lit les URLs collées dans le champ d’entrée.</li>
+          <li>Il détecte la source depuis l’adresse : Instagram, YouTube, Vimeo ou web générique.</li>
+          <li>Il télécharge chaque vidéo avec son titre, sa chaîne, sa date et sa miniature quand elles sont disponibles.</li>
+          <li>Quand une URL Instagram contient un carrousel, il ajoute les vidéos disponibles une par une à la file de téléchargement.</li>
+          <li>Il fabrique un nom de fichier lisible avec artiste, collection, mots-clés et titre.</li>
+          <li>Il range tout dans le dossier <strong>VIDZ IMPORTS</strong>, prêt pour un workflow de montage.</li>
+        </ul>
+
+        <h3 style="margin:26px 0 12px;color:#bd6a1f;font-size:18px;text-transform:uppercase;letter-spacing:2px;">Pourquoi cette forme ?</h3>
+        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">Le projet a été pensé comme une machine industrielle plutôt qu’une fenêtre d’application classique : façade noire, écrans ambrés, boutons physiques, LED de progression. L’idée est de donner une fonction précise à chaque outil, comme dans une régie broadcast ou une gamme d’instruments spécialisés.</p>
+
+        <h3 style="margin:26px 0 12px;color:#bd6a1f;font-size:18px;text-transform:uppercase;letter-spacing:2px;">Comment il a été fabriqué</h3>
+        <p style="margin:0 0 18px;color:#efe1c6;font-size:17px;line-height:1.75;">VIDZDOWNLOAD a été construit avec Codex comme compagnon de fabrication : conception de l’interface, prototypage Python, logique de téléchargement, création d’une app macOS locale, préparation du dépôt GitHub et documentation. Codex a servi d’atelier logiciel : on a avancé par essais, captures, corrections et décisions de design jusqu’à obtenir une machine partageable.</p>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin:22px 0;">
+          <a href="https://github.com/xavierfaltot/VIDZDOWNLOAD/archive/refs/heads/main.zip" style="display:inline-block;padding:13px 18px;border-radius:7px;background:linear-gradient(180deg,#ffbd5d,#df8420);color:#171006;text-decoration:none;font-weight:900;letter-spacing:1px;text-transform:uppercase;">Télécharger l’app</a>
+          <a href="https://github.com/xavierfaltot/VIDZDOWNLOAD" style="display:inline-block;padding:13px 18px;border-radius:7px;background:linear-gradient(180deg,#d4c7a9,#9f8f70);color:#171006;text-decoration:none;font-weight:900;letter-spacing:1px;text-transform:uppercase;">Voir GitHub</a>
+        </div>
+
+        <p style="margin:18px 0 0;padding-top:14px;border-top:1px dashed rgba(255,159,47,.25);color:#9c927d;font-size:14px;line-height:1.6;">VIDZDOWNLOAD utilise yt-dlp pour les téléchargements. Les utilisateurs doivent respecter les droits d’auteur, les conditions des plateformes et la loi locale.</p>
+      </div>
+    </details>
+
+    <details id="vdz-en" style="margin:0;padding:0;background:#120a05;border:8px solid #0e0c09;border-radius:10px;box-shadow:inset 0 4px 9px rgba(0,0,0,.85),0 8px 16px rgba(0,0,0,.34);">
+      <summary style="cursor:pointer;list-style:none;padding:14px 18px;color:#171006;background:linear-gradient(180deg,#d4c7a9,#9f8f70);font-weight:900;letter-spacing:2px;text-transform:uppercase;border-radius:2px;">EN · Article in English</summary>
+      <div style="padding:22px;background:repeating-linear-gradient(0deg,rgba(255,159,47,.045) 0 1px,transparent 1px 3px),#150701;">
+        <h2 style="margin:0 0 14px;color:#ff9f2f;font-size:25px;line-height:1.2;text-transform:uppercase;">What is VIDZDOWNLOAD for?</h2>
+        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">VIDZDOWNLOAD is a small software box dedicated to one operation: collecting videos from links, naming them cleanly, extracting metadata and placing them into an import folder. It does not replace editing software. It works before editing, like an ingest machine.</p>
+        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">The user pastes one or many URLs, such as Instagram reels, carousel posts, YouTube videos or Vimeo links. The system detects the source automatically. There is no complicated menu: START downloads, FOLDER opens the destination folder, STOP interrupts the task.</p>
+
+        <h3 style="margin:26px 0 12px;color:#bd6a1f;font-size:18px;text-transform:uppercase;letter-spacing:2px;">How does it work?</h3>
+        <ul style="margin:0 0 18px;padding-left:22px;color:#efe1c6;font-size:17px;line-height:1.75;">
+          <li>VIDZDOWNLOAD reads the URLs pasted into the input field.</li>
+          <li>It detects the source from the address: Instagram, YouTube, Vimeo or generic web.</li>
+          <li>It downloads each video with title, channel, date and thumbnail when available.</li>
+          <li>When an Instagram URL contains a carousel, it queues the available videos one by one.</li>
+          <li>It creates readable filenames with artist, collection, keywords and title.</li>
+          <li>It stores everything in <strong>VIDZ IMPORTS</strong>, ready for an editing workflow.</li>
+        </ul>
+
+        <h3 style="margin:26px 0 12px;color:#bd6a1f;font-size:18px;text-transform:uppercase;letter-spacing:2px;">Why this shape?</h3>
+        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">The project was designed as an industrial machine rather than a normal app window: black metal faceplate, amber screens, physical buttons and progress LEDs. The idea is to give every tool one precise job, like equipment in a broadcast control room or a family of specialised instruments.</p>
+
+        <h3 style="margin:26px 0 12px;color:#bd6a1f;font-size:18px;text-transform:uppercase;letter-spacing:2px;">How it was made</h3>
+        <p style="margin:0 0 18px;color:#efe1c6;font-size:17px;line-height:1.75;">VIDZDOWNLOAD was built with Codex as a fabrication partner: interface design, Python prototyping, download logic, creation of a local macOS app, GitHub packaging and documentation. Codex acted as a software workshop: we moved through tests, screenshots, corrections and design decisions until the machine became shareable.</p>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin:22px 0;">
+          <a href="https://github.com/xavierfaltot/VIDZDOWNLOAD/archive/refs/heads/main.zip" style="display:inline-block;padding:13px 18px;border-radius:7px;background:linear-gradient(180deg,#ffbd5d,#df8420);color:#171006;text-decoration:none;font-weight:900;letter-spacing:1px;text-transform:uppercase;">Download the app</a>
+          <a href="https://github.com/xavierfaltot/VIDZDOWNLOAD" style="display:inline-block;padding:13px 18px;border-radius:7px;background:linear-gradient(180deg,#d4c7a9,#9f8f70);color:#171006;text-decoration:none;font-weight:900;letter-spacing:1px;text-transform:uppercase;">View GitHub</a>
+        </div>
+
+        <p style="margin:18px 0 0;padding-top:14px;border-top:1px dashed rgba(255,159,47,.25);color:#9c927d;font-size:14px;line-height:1.6;">VIDZDOWNLOAD uses yt-dlp for downloads. Users must respect copyright, platform terms and local law.</p>
+      </div>
+    </details>
+  </div>
+</div>

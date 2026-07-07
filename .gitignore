@@ -16,7 +16,8 @@ VIDZ_COOKIES.txt
 *.jpg
 *.jpeg
 *.png
-!VIDZDOWNATOR_LOGO.png
+!VIDZDOWNLOAD_LOGO.png
+!VIDZDOWNLOAD.app/Contents/Resources/VIDZDOWNLOAD_LOGO.png
 
 *.swp
 *.tmp

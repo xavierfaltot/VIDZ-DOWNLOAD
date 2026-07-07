@@ -1,0 +1,10 @@
+#!/bin/bash
+APP_EXE_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_DIR="$(cd "$APP_EXE_DIR/../../.." && pwd)"
+
+osascript <<APPLESCRIPT
+tell application "Terminal"
+  activate
+  do script "cd " & quoted form of "$PROJECT_DIR" & " && if [ -x .venv/bin/python ]; then .venv/bin/python VIDZDOWNLOAD.py; else python3 VIDZDOWNLOAD.py; fi"
+end tell
+APPLESCRIPT
