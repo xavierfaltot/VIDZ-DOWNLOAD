@@ -10,9 +10,9 @@ It downloads videos from URLs, detects the source automatically, retrieves metad
 - Load URLs from a bookmark export file or a folder of bookmark files
 - Automatic source detection: YouTube, Instagram, Vimeo, generic web
 - Batch downloads with progress LEDs
-- Configurable output folder
+- Configurable output folder with `VIDEOS/` and `ASSETS/` subfolders
 - Instagram carousel expansion: a post with several videos is queued item by item
-- Local ANALYZE button that adds visual tags to the latest filename
+- `AUTO ANALYZE` toggle that adds visual tags after every download
 - Metadata JSON next to each video
 - Thumbnail download when available
 - Filename format with artist, collection, your keywords, title, and optional analysis tags
@@ -57,6 +57,15 @@ VIDZ IMPORTS/
 ```
 
 You can change the final output folder directly in the app with the `OUTPUT FOLDER` field.
+Use `SET` to save the typed path, or `PICK` on macOS to choose a folder.
+
+VIDZDOWNLOAD now keeps the output folder clean:
+
+```text
+Your output folder/
+  VIDEOS/   video files
+  ASSETS/   metadata JSON files, thumbnails, images
+```
 
 ## Bookmarks
 
@@ -73,9 +82,9 @@ Supported bookmark sources include `.html`, `.htm`, `.json`, `.txt`, `.url`, and
 
 ## Local Analysis Tags
 
-After a download, press `ANALYZE`.
+Turn on `AUTO ANALYZE` at the top of the machine.
 
-VIDZDOWNLOAD samples the video locally with ffmpeg and appends tags to the filename, for example:
+After each download, VIDZDOWNLOAD samples the video locally with ffmpeg and appends tags to the filename, for example:
 
 ```text
 APHEX_TWIN__WARP__YOUR_TAGS__WINDOWLICKER__COLOR_ORANGE__FACE__FAST_MOTION__WIDE.mp4

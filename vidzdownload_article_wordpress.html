@@ -27,7 +27,7 @@
       <div style="padding:22px;background:repeating-linear-gradient(0deg,rgba(255,159,47,.045) 0 1px,transparent 1px 3px),#150701;">
         <h2 style="margin:0 0 14px;color:#ff9f2f;font-size:25px;line-height:1.2;text-transform:uppercase;">À quoi sert VIDZDOWNLOAD ?</h2>
         <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">VIDZDOWNLOAD est un petit boîtier logiciel dédié à une seule opération : récupérer des vidéos depuis des liens, les nommer proprement, extraire leurs métadonnées et les déposer dans le dossier choisi par l’utilisateur. Il ne remplace pas un logiciel de montage. Il agit avant le montage, comme une machine d’ingest.</p>
-        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">L’utilisateur colle une ou plusieurs URLs, par exemple des reels Instagram, des posts carrousel, des vidéos YouTube ou des liens Vimeo. Il peut aussi indiquer un fichier export de bookmarks ou un dossier contenant des bookmarks. Le système extrait les URLs, détecte la source automatiquement et dépose les vidéos dans le dossier final paramétré. Après le téléchargement, le bouton <strong>ANALYZE</strong> peut lire la vidéo localement et ajouter des tags visuels au nom du fichier.</p>
+        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">L’utilisateur colle une ou plusieurs URLs, par exemple des reels Instagram, des posts carrousel, des vidéos YouTube ou des liens Vimeo. Il peut aussi indiquer un fichier export de bookmarks ou un dossier contenant des bookmarks. Le système extrait les URLs, détecte la source automatiquement et dépose les vidéos dans le dossier final paramétré. Le mode <strong>AUTO ANALYZE</strong> peut rester allumé : après chaque téléchargement, il lit la vidéo localement et ajoute des tags visuels au nom du fichier.</p>
 
         <h3 style="margin:26px 0 12px;color:#bd6a1f;font-size:18px;text-transform:uppercase;letter-spacing:2px;">Comment ça marche ?</h3>
         <ul style="margin:0 0 18px;padding-left:22px;color:#efe1c6;font-size:17px;line-height:1.75;">
@@ -37,8 +37,8 @@
           <li>Il télécharge chaque vidéo avec son titre, sa chaîne, sa date et sa miniature quand elles sont disponibles.</li>
           <li>Quand une URL Instagram contient un carrousel, il ajoute les vidéos disponibles une par une à la file de téléchargement.</li>
           <li>Il fabrique un nom de fichier lisible avec artiste, collection, mots-clés et titre.</li>
-          <li>Le bouton <strong>ANALYZE</strong> ajoute ensuite des tags générés automatiquement : couleur dominante, luminosité, visage si détectable, vitesse de mouvement, format vertical ou large.</li>
-          <li>Il range tout dans le dossier final choisi dans <strong>OUTPUT FOLDER</strong>, par défaut <strong>VIDZ IMPORTS</strong>.</li>
+          <li>Le mode <strong>AUTO ANALYZE</strong> ajoute ensuite des tags générés automatiquement : couleur dominante, luminosité, visage si détectable, vitesse de mouvement, format vertical ou large.</li>
+          <li>Il range les vidéos dans <strong>VIDEOS</strong> et les fichiers techniques dans <strong>ASSETS</strong> : JSON, miniatures et images.</li>
         </ul>
         <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">Pour l’utiliser, on télécharge le ZIP GitHub, on ouvre le dossier, puis on double-clique sur <strong>VIDZDOWNLOAD.command</strong>. Au premier lancement, le logiciel crée son environnement local et télécharge automatiquement les composants nécessaires.</p>
 
@@ -62,7 +62,7 @@
       <div style="padding:22px;background:repeating-linear-gradient(0deg,rgba(255,159,47,.045) 0 1px,transparent 1px 3px),#150701;">
         <h2 style="margin:0 0 14px;color:#ff9f2f;font-size:25px;line-height:1.2;text-transform:uppercase;">What is VIDZDOWNLOAD for?</h2>
         <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">VIDZDOWNLOAD is a small software box dedicated to one operation: collecting videos from links, naming them cleanly, extracting metadata and placing them into the output folder chosen by the user. It does not replace editing software. It works before editing, like an ingest machine.</p>
-        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">The user pastes one or many URLs, such as Instagram reels, carousel posts, YouTube videos or Vimeo links. They can also point the app to a bookmark export file or a folder containing bookmarks. The system extracts URLs, detects the source automatically and stores videos in the configured final folder. After download, the <strong>ANALYZE</strong> button can read the video locally and add visual tags to the filename.</p>
+        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">The user pastes one or many URLs, such as Instagram reels, carousel posts, YouTube videos or Vimeo links. They can also point the app to a bookmark export file or a folder containing bookmarks. The system extracts URLs, detects the source automatically and stores videos in the configured final folder. The <strong>AUTO ANALYZE</strong> mode can stay enabled: after each download, it reads the video locally and adds visual tags to the filename.</p>
 
         <h3 style="margin:26px 0 12px;color:#bd6a1f;font-size:18px;text-transform:uppercase;letter-spacing:2px;">How does it work?</h3>
         <ul style="margin:0 0 18px;padding-left:22px;color:#efe1c6;font-size:17px;line-height:1.75;">
@@ -72,8 +72,8 @@
           <li>It downloads each video with title, channel, date and thumbnail when available.</li>
           <li>When an Instagram URL contains a carousel, it queues the available videos one by one.</li>
           <li>It creates readable filenames with artist, collection, keywords and title.</li>
-          <li>The <strong>ANALYZE</strong> button then adds generated tags: dominant color, brightness, face when detectable, motion speed, vertical or wide format.</li>
-          <li>It stores everything in the final folder chosen in <strong>OUTPUT FOLDER</strong>, defaulting to <strong>VIDZ IMPORTS</strong>.</li>
+          <li>The <strong>AUTO ANALYZE</strong> mode then adds generated tags: dominant color, brightness, face when detectable, motion speed, vertical or wide format.</li>
+          <li>It stores videos in <strong>VIDEOS</strong> and technical files in <strong>ASSETS</strong>: JSON, thumbnails and images.</li>
         </ul>
         <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">To use it, download the GitHub ZIP, open the folder, then double-click <strong>VIDZDOWNLOAD.command</strong>. On first launch, the software creates its local environment and automatically downloads the required components.</p>
 

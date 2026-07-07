@@ -26,11 +26,12 @@ import webbrowser
 from colorsys import rgb_to_hsv
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
 
 BASE_DIR = Path(__file__).resolve().parent
-DEFAULT_IMPORTS_DIR = BASE_DIR / "VIDZ IMPORTS"
+APP_BUNDLE_DIR = next((parent for parent in BASE_DIR.parents if parent.suffix == ".app"), None)
+DEFAULT_IMPORTS_DIR = (Path.home() / "Movies" / "VIDZDOWNLOAD") if APP_BUNDLE_DIR else (BASE_DIR / "VIDZ IMPORTS")
 CONFIG_FILE = BASE_DIR / "VIDZDOWNLOAD_CONFIG.json"
 COOKIES_FILE = BASE_DIR / "VIDZ_COOKIES.txt"
 LOGO_PATHS = [
@@ -50,22 +51,22 @@ HTML = r"""<!DOCTYPE html>
 <title>VIDZDOWNLOAD</title>
 <style>
 :root{color-scheme:dark;--text:#eee5d0;--muted:#8c8372;--amber:#ff9f2f;--amber2:#bd6a1f;--screen:#160702;--faint:#4c270b}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;overflow:hidden;background:radial-gradient(circle at 50% 38%,rgba(255,159,47,.13),transparent 30%),linear-gradient(180deg,#2a2925,#11100e 54%,#020202);color:var(--text);font-family:"Courier New",ui-monospace,monospace}button,input,textarea{font:inherit}.bench{width:min(1180px,100vw);min-height:100vh;margin:0 auto;padding:8px 22px;display:grid;place-items:center}.machine{position:relative;width:min(1040px,calc(100vw - 44px));padding:14px 24px 13px;border:1px solid #464134;border-radius:18px;background:linear-gradient(90deg,rgba(255,159,47,.05),transparent 7% 93%,rgba(255,159,47,.035)),linear-gradient(145deg,rgba(255,255,255,.105),transparent 12% 78%,rgba(0,0,0,.58)),repeating-linear-gradient(90deg,rgba(255,255,255,.018) 0 1px,transparent 1px 9px),repeating-linear-gradient(0deg,rgba(255,159,47,.018) 0 1px,transparent 1px 21px),linear-gradient(180deg,#171612,#0a0a08);box-shadow:inset 0 2px 0 rgba(255,255,255,.11),inset 0 -3px 0 rgba(0,0,0,.72),inset 0 0 0 5px rgba(255,255,255,.025),0 22px 54px rgba(0,0,0,.68),0 7px 0 #030303}.machine:before{content:"";position:absolute;inset:12px;border:1px solid rgba(255,159,47,.08);border-radius:13px;pointer-events:none}.top{position:absolute;left:50%;top:-14px;width:270px;height:28px;transform:translateX(-50%);border:1px solid #332f27;border-bottom:0;border-radius:17px 17px 0 0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.045) 0 1px,transparent 1px 8px),linear-gradient(180deg,#1b1915,#070706)}.screw{position:absolute;width:17px;height:17px;border-radius:50%;background:radial-gradient(circle at 35% 26%,#b3a486,#6a5b3e 36%,#16130e 76%);z-index:2}.screw:after{content:"";position:absolute;width:10px;height:2px;left:3px;top:7px;background:#21180f;transform:rotate(32deg)}.tl{left:18px;top:18px}.tr{right:18px;top:18px}.bl{left:18px;bottom:18px}.br{right:18px;bottom:18px}.brand{display:grid;justify-items:center;gap:3px;padding-bottom:6px}.plate{position:relative;width:230px;min-height:54px;display:grid;place-items:center;align-content:center;gap:2px;border:1px solid #343027;border-radius:5px;background:radial-gradient(circle at 50% -20%,rgba(255,255,255,.16),transparent 38%),linear-gradient(145deg,rgba(255,255,255,.08),transparent 38%,rgba(0,0,0,.52)),#050505;color:#8b826f;box-shadow:inset 0 1px 0 rgba(255,255,255,.09),inset 0 -2px 0 #000,0 9px 16px rgba(0,0,0,.44);text-transform:uppercase}.plate strong{color:#b1a893;font-size:16px;letter-spacing:3px}.plate span{color:#8f8673;font-size:9px;font-weight:700;letter-spacing:5px}.title{display:grid;justify-items:center;text-transform:uppercase}.title span{color:var(--muted);font-size:10px;font-weight:700;letter-spacing:4px}.title strong{font-size:22px;letter-spacing:5px;text-shadow:0 2px 0 #000}.deck{display:grid;grid-template-columns:1fr 1fr;gap:14px}.screen,.oled{border:8px solid #0e0c09;border-radius:9px;background:#0e0c09;box-shadow:inset 0 4px 9px rgba(0,0,0,.88),0 1px 0 rgba(255,255,255,.16),0 7px 12px rgba(0,0,0,.34)}.inner,.oled{position:relative;overflow:hidden;background:repeating-linear-gradient(0deg,rgba(255,159,47,.055) 0 1px,transparent 1px 3px),radial-gradient(circle at 50% 0%,rgba(255,159,47,.12),transparent 45%),var(--screen);color:var(--amber);text-shadow:0 0 7px rgba(255,159,47,.38)}.inner{min-height:86px;padding:8px 14px 7px;border-radius:3px}.inner h2,.oled-title{margin:0 0 5px;padding-bottom:4px;border-bottom:1px dashed var(--faint);color:var(--amber2);font-size:11px;letter-spacing:3px;text-align:center}.inner p{display:grid;grid-template-columns:12px 92px 1fr;gap:8px;margin:3px 0;font-size:13px;font-weight:800;letter-spacing:1px}.dot,.ready-dot{width:8px;height:8px;border-radius:50%;background:#70400d;box-shadow:inset 0 1px 1px #000}.dot.on,.ready-dot.on{background:#6fe272;box-shadow:0 0 8px rgba(111,226,114,.75)}.inner b{justify-self:end;color:var(--amber);font-size:12px}.selector{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}.bank,.input-module,.controls{border-radius:9px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(0,0,0,.22)),#2a251c;border:1px solid #48402f;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 0 rgba(0,0,0,.45);position:relative}.bank{padding:7px}label{display:block;margin-bottom:8px;color:var(--amber);font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase}.url-module label:after{content:"  MULTI DROP";color:#675d4b;font-size:8px;letter-spacing:2px}.buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}button{min-height:38px;border:0;border-radius:7px;color:var(--text);text-transform:uppercase;cursor:pointer;font-weight:900;letter-spacing:1.5px}.source,.mode{position:relative;background:linear-gradient(180deg,#26231d,#11100d);box-shadow:inset 0 2px 0 rgba(255,255,255,.12),inset 0 -3px 0 rgba(0,0,0,.42),0 4px 0 rgba(0,0,0,.52)}.source.active,.mode.active,#startBtn{color:#1c1308;background:linear-gradient(180deg,#ffb448,#e78319)}.source[data-source=Instagram].active{background:linear-gradient(180deg,#a978d9,#6f45a7);color:#fff6e3}.source[data-source=Vimeo].active{background:linear-gradient(180deg,#65c2d6,#2c7d91);color:#051014}.mode[data-mode=playlist].active{background:linear-gradient(180deg,#f0d36a,#b99c28);color:#171207}.mode[data-mode=account].active{background:linear-gradient(180deg,#d36b6b,#9a3434);color:#fff4e2}.inputs{display:grid;grid-template-columns:1fr 1fr 1fr 92px;gap:9px 12px;margin-top:8px}.url-module{grid-column:1/-1}.input-module{padding:7px 10px 8px}input,textarea{width:100%;border:0;border-radius:5px;outline:none;background:repeating-linear-gradient(0deg,rgba(255,159,47,.04) 0 1px,transparent 1px 3px),#050302;color:var(--amber);padding:0 12px;font-weight:900;letter-spacing:1px;box-shadow:inset 0 0 22px rgba(0,0,0,.86),0 1px 0 rgba(255,255,255,.08)}input{height:32px}textarea{display:block;height:54px;padding:8px 12px;line-height:1.35;resize:none}.limit input{text-align:center}.oled{display:grid;grid-template-columns:170px 1fr 58px;align-items:center;gap:14px;min-height:68px;margin-top:8px;padding:7px 14px}.oled-title{margin:0;padding:0;border:0;text-align:left}.oled-main{min-width:0;color:var(--amber);font-size:20px;font-weight:900;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bar{grid-column:1/3;height:12px;border:1px solid #76420d;background:#080302;overflow:hidden}.bar span{display:block;width:0%;height:100%;background:repeating-linear-gradient(90deg,var(--amber) 0 9px,transparent 9px 12px);transition:width .2s linear}.percent{grid-column:3;grid-row:1/3;justify-self:end;color:var(--amber);font-size:17px;font-weight:900}.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-top:8px;padding:7px}.controls button{min-height:42px;color:#15100a;background:linear-gradient(180deg,#d4c7a9,#9f8f70);box-shadow:inset 0 2px 0 rgba(255,255,255,.45),inset 0 -4px 0 rgba(0,0,0,.24),0 4px 0 rgba(0,0,0,.45)}#stopBtn{background:linear-gradient(180deg,#d45248,#90231f);color:#fff0db}.ready{display:grid;grid-template-columns:14px 120px 1fr;align-items:center;gap:10px;margin-top:6px;color:var(--muted);text-transform:uppercase}.ready small{color:var(--amber2);font-size:12px;font-weight:900;letter-spacing:2px}.ready strong{justify-self:end;max-width:100%;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media(max-width:780px){body{overflow:auto}.bench{padding:12px;align-items:start}.machine{width:100%;padding:22px 16px 18px}.deck,.selector,.buttons,.inputs,.controls{grid-template-columns:1fr}.oled{grid-template-columns:1fr 58px}.oled-title{grid-column:1/3}.bar{grid-column:1/2}.percent{grid-column:2;grid-row:2/4}.ready{grid-template-columns:14px 1fr}}
-.plate{width:126px;min-height:100%;height:100%;padding:7px;background:#050505}.plate img{display:block;width:108px;height:92px;object-fit:contain;border-radius:4px;filter:drop-shadow(0 7px 9px rgba(0,0,0,.65))}.plate strong,.plate span{display:none}.deck{grid-template-columns:126px 1fr 1fr;align-items:stretch}.brand.status-logo{padding:0;align-self:stretch}.selector{grid-template-columns:1fr}.source{pointer-events:none}.bookmark-module{grid-column:1/3}.output-module{grid-column:3/5}.leds{grid-column:1/4;display:grid;grid-template-columns:repeat(24,1fr);gap:4px;margin-top:2px}.leds span{height:7px;border-radius:2px;background:#231508;box-shadow:inset 0 1px 1px #000}.leds span.on{background:var(--amber);box-shadow:0 0 8px rgba(255,159,47,.75)}#analyzeBtn{background:linear-gradient(180deg,#7ac96b,#3e8b34);color:#061406}@media(max-width:780px){.deck{grid-template-columns:1fr}.brand.status-logo .plate{width:100%;height:auto;min-height:118px}.brand.status-logo .plate img{width:164px;height:96px}.bookmark-module,.output-module{grid-column:auto}}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;overflow:hidden;background:radial-gradient(circle at 50% 38%,rgba(255,159,47,.13),transparent 30%),linear-gradient(180deg,#2a2925,#11100e 54%,#020202);color:var(--text);font-family:"Courier New",ui-monospace,monospace}button,input,textarea{font:inherit}.bench{width:min(1180px,100vw);min-height:100vh;margin:0 auto;padding:8px 22px;display:grid;place-items:center}.machine{position:relative;width:min(1040px,calc(100vw - 44px));padding:14px 24px 13px;border:1px solid #464134;border-radius:18px;background:linear-gradient(90deg,rgba(255,159,47,.05),transparent 7% 93%,rgba(255,159,47,.035)),linear-gradient(145deg,rgba(255,255,255,.105),transparent 12% 78%,rgba(0,0,0,.58)),repeating-linear-gradient(90deg,rgba(255,255,255,.018) 0 1px,transparent 1px 9px),repeating-linear-gradient(0deg,rgba(255,159,47,.018) 0 1px,transparent 1px 21px),linear-gradient(180deg,#171612,#0a0a08);box-shadow:inset 0 2px 0 rgba(255,255,255,.11),inset 0 -3px 0 rgba(0,0,0,.72),inset 0 0 0 5px rgba(255,255,255,.025),0 22px 54px rgba(0,0,0,.68),0 7px 0 #030303}.machine:before{content:"";position:absolute;inset:12px;border:1px solid rgba(255,159,47,.08);border-radius:13px;pointer-events:none}.top{position:absolute;left:50%;top:-14px;width:270px;height:28px;transform:translateX(-50%);border:1px solid #332f27;border-bottom:0;border-radius:17px 17px 0 0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.045) 0 1px,transparent 1px 8px),linear-gradient(180deg,#1b1915,#070706)}.screw{position:absolute;width:17px;height:17px;border-radius:50%;background:radial-gradient(circle at 35% 26%,#b3a486,#6a5b3e 36%,#16130e 76%);z-index:2}.screw:after{content:"";position:absolute;width:10px;height:2px;left:3px;top:7px;background:#21180f;transform:rotate(32deg)}.tl{left:18px;top:18px}.tr{right:18px;top:18px}.bl{left:18px;bottom:18px}.br{right:18px;bottom:18px}.brand{display:grid;justify-items:center;gap:3px;padding-bottom:6px}.plate{position:relative;width:230px;min-height:54px;display:grid;place-items:center;align-content:center;gap:2px;border:1px solid #343027;border-radius:5px;background:radial-gradient(circle at 50% -20%,rgba(255,255,255,.16),transparent 38%),linear-gradient(145deg,rgba(255,255,255,.08),transparent 38%,rgba(0,0,0,.52)),#050505;color:#8b826f;box-shadow:inset 0 1px 0 rgba(255,255,255,.09),inset 0 -2px 0 #000,0 9px 16px rgba(0,0,0,.44);text-transform:uppercase}.plate strong{color:#b1a893;font-size:16px;letter-spacing:3px}.plate span{color:#8f8673;font-size:9px;font-weight:700;letter-spacing:5px}.title{display:grid;justify-items:center;text-transform:uppercase}.title span{color:var(--muted);font-size:10px;font-weight:700;letter-spacing:4px}.title strong{font-size:22px;letter-spacing:5px;text-shadow:0 2px 0 #000}.deck{display:grid;grid-template-columns:1fr 1fr;gap:14px}.screen,.oled{border:8px solid #0e0c09;border-radius:9px;background:#0e0c09;box-shadow:inset 0 4px 9px rgba(0,0,0,.88),0 1px 0 rgba(255,255,255,.16),0 7px 12px rgba(0,0,0,.34)}.inner,.oled{position:relative;overflow:hidden;background:repeating-linear-gradient(0deg,rgba(255,159,47,.055) 0 1px,transparent 1px 3px),radial-gradient(circle at 50% 0%,rgba(255,159,47,.12),transparent 45%),var(--screen);color:var(--amber);text-shadow:0 0 7px rgba(255,159,47,.38)}.inner{min-height:86px;padding:8px 14px 7px;border-radius:3px}.inner h2,.oled-title{margin:0 0 5px;padding-bottom:4px;border-bottom:1px dashed var(--faint);color:var(--amber2);font-size:11px;letter-spacing:3px;text-align:center}.inner p{display:grid;grid-template-columns:12px 92px 1fr;gap:8px;margin:3px 0;font-size:13px;font-weight:800;letter-spacing:1px}.dot,.ready-dot{width:8px;height:8px;border-radius:50%;background:#70400d;box-shadow:inset 0 1px 1px #000}.dot.on,.ready-dot.on{background:#6fe272;box-shadow:0 0 8px rgba(111,226,114,.75)}.inner b{justify-self:end;color:var(--amber);font-size:12px}.selector{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}.bank,.input-module,.controls{border-radius:9px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(0,0,0,.22)),#2a251c;border:1px solid #48402f;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 0 rgba(0,0,0,.45);position:relative}.bank{padding:7px}label{display:block;margin-bottom:8px;color:var(--amber);font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase}.url-module label:after{content:"  MULTI DROP";color:#675d4b;font-size:8px;letter-spacing:2px}.buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}button{min-height:38px;border:0;border-radius:7px;color:var(--text);text-transform:uppercase;cursor:pointer;font-weight:900;letter-spacing:1.5px}.source,.mode{position:relative;background:linear-gradient(180deg,#26231d,#11100d);box-shadow:inset 0 2px 0 rgba(255,255,255,.12),inset 0 -3px 0 rgba(0,0,0,.42),0 4px 0 rgba(0,0,0,.52)}.source.active,.mode.active,#startBtn{color:#1c1308;background:linear-gradient(180deg,#ffb448,#e78319)}.source[data-source=Instagram].active{background:linear-gradient(180deg,#a978d9,#6f45a7);color:#fff6e3}.source[data-source=Vimeo].active{background:linear-gradient(180deg,#65c2d6,#2c7d91);color:#051014}.mode[data-mode=playlist].active{background:linear-gradient(180deg,#f0d36a,#b99c28);color:#171207}.mode[data-mode=account].active{background:linear-gradient(180deg,#d36b6b,#9a3434);color:#fff4e2}.inputs{display:grid;grid-template-columns:1fr 1fr 1fr 92px;gap:9px 12px;margin-top:8px}.url-module{grid-column:1/-1}.input-module{padding:7px 10px 8px}input,textarea{width:100%;border:0;border-radius:5px;outline:none;background:repeating-linear-gradient(0deg,rgba(255,159,47,.04) 0 1px,transparent 1px 3px),#050302;color:var(--amber);padding:0 12px;font-weight:900;letter-spacing:1px;box-shadow:inset 0 0 22px rgba(0,0,0,.86),0 1px 0 rgba(255,255,255,.08)}input{height:32px}textarea{display:block;height:54px;padding:8px 12px;line-height:1.35;resize:none}.limit input{text-align:center}.oled{display:grid;grid-template-columns:170px 1fr 58px;align-items:center;gap:14px;min-height:68px;margin-top:8px;padding:7px 14px}.oled-title{margin:0;padding:0;border:0;text-align:left}.oled-main{min-width:0;color:var(--amber);font-size:20px;font-weight:900;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bar{grid-column:1/3;height:12px;border:1px solid #76420d;background:#080302;overflow:hidden}.bar span{display:block;width:0%;height:100%;background:repeating-linear-gradient(90deg,var(--amber) 0 9px,transparent 9px 12px);transition:width .2s linear}.percent{grid-column:3;grid-row:1/3;justify-self:end;color:var(--amber);font-size:17px;font-weight:900}.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-top:8px;padding:7px}.controls button{min-height:42px;color:#15100a;background:linear-gradient(180deg,#d4c7a9,#9f8f70);box-shadow:inset 0 2px 0 rgba(255,255,255,.45),inset 0 -4px 0 rgba(0,0,0,.24),0 4px 0 rgba(0,0,0,.45)}#stopBtn{background:linear-gradient(180deg,#d45248,#90231f);color:#fff0db}.ready{display:grid;grid-template-columns:14px 120px 1fr;align-items:center;gap:10px;margin-top:6px;color:var(--muted);text-transform:uppercase}.ready small{color:var(--amber2);font-size:12px;font-weight:900;letter-spacing:2px}.ready strong{justify-self:end;max-width:100%;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media(max-width:780px){body{overflow:auto}.bench{padding:12px;align-items:start}.machine{width:100%;padding:22px 16px 18px}.deck,.selector,.buttons,.inputs,.controls{grid-template-columns:1fr}.oled{grid-template-columns:1fr 58px}.oled-title{grid-column:1/3}.bar{grid-column:1/2}.percent{grid-column:2;grid-row:2/4}.ready{grid-template-columns:14px 1fr}}
+.plate{width:126px;min-height:100%;height:100%;padding:7px;background:#050505}.plate img{display:block;width:108px;height:92px;object-fit:contain;border-radius:4px;filter:drop-shadow(0 7px 9px rgba(0,0,0,.65))}.plate strong,.plate span{display:none}.deck{grid-template-columns:126px 1fr 1fr;align-items:stretch}.brand.status-logo{padding:0;align-self:stretch}.selector{grid-template-columns:1fr 180px}.source{pointer-events:none}.bookmark-module{grid-column:1/3}.output-module{grid-column:3/5}.path-row{display:grid;grid-template-columns:1fr 52px 58px;gap:6px}.mini{min-height:32px;border-radius:5px;background:linear-gradient(180deg,#d4c7a9,#9f8f70);color:#15100a;font-size:11px}.analyze-bank .buttons{grid-template-columns:1fr}.toggle{background:linear-gradient(180deg,#26231d,#11100d)}.toggle.active{background:linear-gradient(180deg,#7ac96b,#3e8b34);color:#061406}.leds{grid-column:1/4;display:grid;grid-template-columns:repeat(24,1fr);gap:4px;margin-top:2px}.leds span{height:7px;border-radius:2px;background:#231508;box-shadow:inset 0 1px 1px #000}.leds span.on{background:var(--amber);box-shadow:0 0 8px rgba(255,159,47,.75)}@media(max-width:780px){.deck{grid-template-columns:1fr}.brand.status-logo .plate{width:100%;height:auto;min-height:118px}.brand.status-logo .plate img{width:164px;height:96px}.bookmark-module,.output-module{grid-column:auto}.path-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <main class="bench"><section class="machine">
 <div class="top"></div><div class="screw tl"></div><div class="screw tr"></div><div class="screw bl"></div><div class="screw br"></div>
 <section class="deck"><div class="brand status-logo"><div class="plate"><img src="/logo.png" alt="VIDZDOWNLOAD"></div></div><article class="screen"><div class="inner"><h2>SOURCE STATUS</h2><p><span class="dot on"></span>[ SOURCE ]<b id="selectedSource">AUTO</b></p><p><span class="dot"></span>[ FOLDER ]<b id="sourceFolder">OUTPUT</b></p><p><span class="dot"></span>[ MODE ]<b id="selectedMode">VIDEO</b></p></div></article><article class="screen"><div class="inner"><h2>IMPORT STATUS</h2><p><span class="dot on"></span>[ FILES ]<b id="count">00</b></p><p><span class="dot"></span>[ OUTPUT ]<b id="targetLabel">LOCAL</b></p><p><span class="dot"></span>[ STATE ]<b id="readyLabel">READY</b></p></div></article></section>
-<section class="selector"><section class="bank"><label>MODE</label><div class="buttons"><button class="mode active" data-mode="video">Video</button><button class="mode" data-mode="playlist">Playlist</button><button class="mode" data-mode="account">Account</button></div></section></section>
-<section class="inputs"><div class="input-module url-module"><label for="url">URLS</label><textarea id="url" rows="3" spellcheck="false"></textarea></div><div class="input-module bookmark-module"><label for="bookmarksPath">BOOKMARKS PATH</label><input id="bookmarksPath" placeholder="/path/to/bookmarks.html or folder"></div><div class="input-module output-module"><label for="outputFolder">OUTPUT FOLDER</label><input id="outputFolder" placeholder="VIDZ IMPORTS"></div><div class="input-module"><label for="artist">ARTIST</label><input id="artist"></div><div class="input-module"><label for="collection">COLLECTION</label><input id="collection"></div><div class="input-module"><label for="keywords">KEYWORDS</label><input id="keywords"></div><div class="input-module limit"><label for="limit">LIMIT</label><input id="limit" type="number" min="1" max="100" value="25"></div></section>
+<section class="selector"><section class="bank"><label>MODE</label><div class="buttons"><button class="mode active" data-mode="video">Video</button><button class="mode" data-mode="playlist">Playlist</button><button class="mode" data-mode="account">Account</button></div></section><section class="bank analyze-bank"><label>AUTO ANALYZE</label><div class="buttons"><button id="autoAnalyzeBtn" class="toggle" type="button">OFF</button></div></section></section>
+<section class="inputs"><div class="input-module url-module"><label for="url">URLS</label><textarea id="url" rows="3" spellcheck="false"></textarea></div><div class="input-module bookmark-module"><label for="bookmarksPath">BOOKMARKS PATH</label><input id="bookmarksPath" placeholder="/path/to/bookmarks.html or folder"></div><div class="input-module output-module"><label for="outputFolder">OUTPUT FOLDER</label><div class="path-row"><input id="outputFolder" placeholder="VIDZ IMPORTS"><button id="setFolderBtn" class="mini" type="button">SET</button><button id="pickFolderBtn" class="mini" type="button">PICK</button></div></div><div class="input-module"><label for="artist">ARTIST</label><input id="artist"></div><div class="input-module"><label for="collection">COLLECTION</label><input id="collection"></div><div class="input-module"><label for="keywords">KEYWORDS</label><input id="keywords"></div><div class="input-module limit"><label for="limit">LIMIT</label><input id="limit" type="number" min="1" max="100" value="25"></div></section>
 <section class="oled"><div class="oled-title">STATUS</div><div id="statusText" class="oled-main">READY</div><div class="bar"><span id="barFill"></span></div><div id="percent" class="percent">0%</div></section>
-<section class="controls"><button id="folderBtn">FOLDER</button><button id="startBtn">START</button><button id="stopBtn">STOP</button><button id="analyzeBtn">ANALYZE</button></section>
+<section class="controls"><button id="folderBtn">FOLDER</button><button id="startBtn">START</button><button id="stopBtn">STOP</button></section>
 <footer class="ready"><span id="readyLight" class="ready-dot"></span><small id="folderLabel">VIDZ IMPORTS</small><strong id="lastFile">NO FILE</strong></footer>
 </section></main>
 <script>
-const state={source:"AUTO",mode:"video",jobId:null,timer:null,lastFile:null,beeped:false};
+const state={source:"AUTO",mode:"video",autoAnalyze:false,jobId:null,timer:null,lastFile:null,beeped:false};
 const $=id=>document.getElementById(id);
 document.querySelector(".bar").insertAdjacentHTML("afterend",`<div id="leds" class="leds">${"<span></span>".repeat(24)}</div>`);
 function detectSource(value){const v=(value||"").toLowerCase();if(v.includes("instagram.com"))return"Instagram";if(v.includes("youtube.com")||v.includes("youtu.be"))return"YouTube";if(v.includes("vimeo.com"))return"Vimeo";if(v.includes("http"))return"Internet";return"AUTO";}
@@ -73,15 +74,18 @@ function updateSource(){state.source=detectSource($("url").value);$("selectedSou
 function updateLeds(progress=0){const on=Math.round(Math.max(0,Math.min(100,progress))/100*24);document.querySelectorAll("#leds span").forEach((led,i)=>led.classList.toggle("on",i<on));}
 function beep(){try{const ctx=new (window.AudioContext||window.webkitAudioContext)();const osc=ctx.createOscillator();const gain=ctx.createGain();osc.type="square";osc.frequency.value=880;gain.gain.setValueAtTime(.0001,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.18,ctx.currentTime+.02);gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.22);osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+.24);}catch(e){}}
 function setOled(message,progress=0,ready=false){$("statusText").textContent=message;$("percent").textContent=`${Math.max(0,Math.min(100,Math.round(progress)))}%`;$("barFill").style.width=`${Math.max(0,Math.min(100,progress))}%`;updateLeds(progress);$("readyLight").classList.toggle("on",ready);$("readyLabel").textContent=ready?"READY":message.replace(/\.+$/,"");}
-async function refreshImports(){const res=await fetch("/api/imports");if(!res.ok)return;const data=await res.json();$("folderLabel").textContent=data.folder.split("/").slice(-1)[0]||"VIDZ IMPORTS";$("count").textContent=String(data.items.length).padStart(2,"0");if(data.items[0]){state.lastFile=data.items[0].path;$("lastFile").textContent=data.items[0].name;}}
-async function loadConfig(){const res=await fetch("/api/config");if(!res.ok)return;const data=await res.json();$("outputFolder").value=data.output_folder||"";$("folderLabel").textContent=(data.output_folder||"VIDZ IMPORTS").split("/").slice(-1)[0]||"VIDZ IMPORTS";$("sourceFolder").textContent=$("folderLabel").textContent.toUpperCase();$("targetLabel").textContent="LOCAL";}
+function setAutoAnalyze(on){state.autoAnalyze=!!on;$("autoAnalyzeBtn").classList.toggle("active",state.autoAnalyze);$("autoAnalyzeBtn").textContent=state.autoAnalyze?"ON":"OFF";$("readyLabel").textContent=state.autoAnalyze?"AUTO":"READY";}
+async function refreshImports(){const path=encodeURIComponent($("outputFolder")?.value.trim()||"");const res=await fetch(`/api/imports?outputFolder=${path}`);if(!res.ok)return;const data=await res.json();$("folderLabel").textContent=(data.folder||"VIDZ IMPORTS").split("/").slice(-1)[0]||"VIDZ IMPORTS";$("count").textContent=String(data.items.length).padStart(2,"0");$("targetLabel").textContent="VIDEOS";if(data.items[0]){state.lastFile=data.items[0].path;$("lastFile").textContent=data.items[0].name;}}
+async function saveConfig(silent=false){const payload={outputFolder:$("outputFolder").value.trim(),autoAnalyze:state.autoAnalyze};const res=await fetch("/api/config",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});const data=await res.json().catch(()=>({}));if(res.ok&&data.output_folder){$("outputFolder").value=data.output_folder;$("folderLabel").textContent=data.output_folder.split("/").slice(-1)[0]||"VIDZ IMPORTS";$("sourceFolder").textContent=$("folderLabel").textContent.toUpperCase();await refreshImports();if(!silent)setOled("FOLDER SET",100,true);}else if(!silent){setOled(data.error||"FOLDER ERROR",100,false);}}
+async function pickFolder(){setOled("PICK FOLDER",20,false);const res=await fetch("/api/choose-folder",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({outputFolder:$("outputFolder").value.trim(),autoAnalyze:state.autoAnalyze})});const data=await res.json().catch(()=>({}));if(res.ok&&data.output_folder){$("outputFolder").value=data.output_folder;await saveConfig(true);setOled("FOLDER SET",100,true);}else{setOled(data.error||"PICK CANCELLED",100,false);}}
+async function loadConfig(){const res=await fetch("/api/config");if(!res.ok)return;const data=await res.json();$("outputFolder").value=data.output_folder||"";setAutoAnalyze(!!data.auto_analyze);$("folderLabel").textContent=(data.output_folder||"VIDZ IMPORTS").split("/").slice(-1)[0]||"VIDZ IMPORTS";$("sourceFolder").textContent=$("folderLabel").textContent.toUpperCase();$("targetLabel").textContent="VIDEOS";}
 async function pollJob(){if(!state.jobId)return;const res=await fetch(`/api/jobs/${state.jobId}`);if(!res.ok)return;const job=await res.json();setOled(job.error||job.message||job.status||"WORKING",job.progress||0,job.status==="ready");if(job.metadata?.source){$("selectedSource").textContent=job.metadata.source.toUpperCase();}if(job.status==="ready"){clearInterval(state.timer);state.timer=null;state.lastFile=job.file;$("lastFile").textContent=job.metadata?.filename||job.file||"READY";if(!state.beeped){state.beeped=true;beep();}await refreshImports();}if(job.status==="error"||job.status==="stopped"){clearInterval(state.timer);state.timer=null;setOled(job.error||job.message||"STOPPED",job.status==="stopped"?0:100,false);}}
-async function startDownload(){updateSource();const payload={source:"AUTO",mode:state.mode,url:$("url").value.trim(),bookmarksPath:$("bookmarksPath").value.trim(),outputFolder:$("outputFolder").value.trim(),artist:$("artist").value.trim(),collection:$("collection").value.trim(),keywords:$("keywords").value.trim(),limit:Number($("limit").value||25)};if(!payload.url&&!payload.bookmarksPath){setOled("URL OR BOOKMARKS ?",0,false);$("url").focus();return;}state.beeped=false;setOled("QUEUED",1,false);const res=await fetch("/api/download",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});if(!res.ok){setOled(await res.text(),100,false);return;}const data=await res.json();state.jobId=data.job_id;if(state.timer)clearInterval(state.timer);state.timer=setInterval(pollJob,650);pollJob();}
+async function startDownload(){updateSource();await saveConfig(true);const payload={source:"AUTO",mode:state.mode,autoAnalyze:state.autoAnalyze,url:$("url").value.trim(),bookmarksPath:$("bookmarksPath").value.trim(),outputFolder:$("outputFolder").value.trim(),artist:$("artist").value.trim(),collection:$("collection").value.trim(),keywords:$("keywords").value.trim(),limit:Number($("limit").value||25)};if(!payload.url&&!payload.bookmarksPath){setOled("URL OR BOOKMARKS ?",0,false);$("url").focus();return;}state.beeped=false;setOled("QUEUED",1,false);const res=await fetch("/api/download",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});if(!res.ok){setOled(await res.text(),100,false);return;}const data=await res.json();state.jobId=data.job_id;if(state.timer)clearInterval(state.timer);state.timer=setInterval(pollJob,650);pollJob();}
 async function stopDownload(){if(!state.jobId){setOled("STOPPED",0,false);return;}await fetch(`/api/jobs/${state.jobId}/stop`,{method:"POST"});setOled("STOPPING...",0,false);}
 async function analyzeLast(){if(!state.lastFile){await refreshImports();}if(!state.lastFile){setOled("NO FILE",0,false);return;}setOled("ANALYZING...",35,false);const res=await fetch("/api/analyze-last",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({file:state.lastFile,outputFolder:$("outputFolder").value.trim()})});const data=await res.json().catch(()=>({error:"ANALYSIS ERROR"}));if(!res.ok||!data.ok){setOled(data.error||"ANALYSIS ERROR",100,false);return;}state.lastFile=data.file;$("lastFile").textContent=data.filename||data.file;await refreshImports();setOled((data.tags||[]).slice(0,3).join(" ")||"ANALYZED",100,true);beep();}
-async function openFolder(){await fetch("/api/open-folder",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({outputFolder:$("outputFolder").value.trim()})});await refreshImports();setOled("FOLDER",100,true);}
+async function openFolder(){await fetch("/api/open-folder",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({outputFolder:$("outputFolder").value.trim(),autoAnalyze:state.autoAnalyze})});await refreshImports();setOled("FOLDER",100,true);}
 document.querySelectorAll(".mode").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".mode").forEach(x=>x.classList.remove("active"));b.classList.add("active");state.mode=b.dataset.mode;$("selectedMode").textContent=state.mode.toUpperCase();}));
-$("folderBtn").addEventListener("click",openFolder);$("startBtn").addEventListener("click",startDownload);$("stopBtn").addEventListener("click",stopDownload);$("analyzeBtn").addEventListener("click",analyzeLast);$("url").addEventListener("input",updateSource);$("url").addEventListener("keydown",e=>{if(e.key==="Enter"&&(e.metaKey||e.ctrlKey))startDownload();});$("outputFolder").addEventListener("input",()=>{$("folderLabel").textContent=$("outputFolder").value.split("/").slice(-1)[0]||"VIDZ IMPORTS";$("sourceFolder").textContent=$("folderLabel").textContent.toUpperCase();});loadConfig().then(refreshImports).then(()=>{updateSource();setOled("READY",0,true);});
+$("folderBtn").addEventListener("click",openFolder);$("startBtn").addEventListener("click",startDownload);$("stopBtn").addEventListener("click",stopDownload);$("setFolderBtn").addEventListener("click",()=>saveConfig(false));$("pickFolderBtn").addEventListener("click",pickFolder);$("autoAnalyzeBtn").addEventListener("click",async()=>{setAutoAnalyze(!state.autoAnalyze);await saveConfig(true);setOled(state.autoAnalyze?"AUTO ANALYZE":"MANUAL",100,true);});$("url").addEventListener("input",updateSource);$("url").addEventListener("keydown",e=>{if(e.key==="Enter"&&(e.metaKey||e.ctrlKey))startDownload();});$("outputFolder").addEventListener("input",()=>{$("folderLabel").textContent=$("outputFolder").value.split("/").slice(-1)[0]||"VIDZ IMPORTS";$("sourceFolder").textContent=$("folderLabel").textContent.toUpperCase();});loadConfig().then(refreshImports).then(()=>{updateSource();setOled("READY",0,true);});
 </script>
 </body></html>"""
 
@@ -97,6 +101,10 @@ def save_config(config: dict) -> None:
     CONFIG_FILE.write_text(json.dumps(config, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def truthy(value: object) -> bool:
+    return str(value).strip().lower() in {"1", "true", "yes", "on", "auto"}
+
+
 def resolve_output_dir(value: str | None = None) -> Path:
     raw = (value or load_config().get("output_folder") or str(DEFAULT_IMPORTS_DIR)).strip()
     path = Path(raw).expanduser()
@@ -105,10 +113,28 @@ def resolve_output_dir(value: str | None = None) -> Path:
     return path.resolve()
 
 
+def videos_dir(output_dir: Path) -> Path:
+    return output_dir / "VIDEOS"
+
+
+def assets_dir(output_dir: Path) -> Path:
+    return output_dir / "ASSETS"
+
+
 def ensure_dirs(output_dir: Path | None = None) -> Path:
     target = output_dir or resolve_output_dir()
     target.mkdir(parents=True, exist_ok=True)
+    videos_dir(target).mkdir(parents=True, exist_ok=True)
+    assets_dir(target).mkdir(parents=True, exist_ok=True)
     return target
+
+
+def metadata_path(video_path: Path, output_dir: Path) -> Path:
+    return assets_dir(output_dir) / f"{video_path.stem}.json"
+
+
+def asset_path(video_path: Path, output_dir: Path, suffix: str) -> Path:
+    return assets_dir(output_dir) / f"{video_path.stem}{suffix}"
 
 
 def token(value: str, fallback: str) -> str:
@@ -276,6 +302,18 @@ def find_thumb(no_ext: Path) -> Path | None:
     matches = sorted(no_ext.parent.glob(f"{no_ext.name}.*"))
     thumbs = [p for p in matches if p.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"}]
     return thumbs[0] if thumbs else None
+
+
+def move_thumb_to_assets(no_ext: Path, video_path: Path, output_dir: Path) -> Path | None:
+    thumb = find_thumb(no_ext)
+    if not thumb:
+        return None
+    target = asset_path(video_path, output_dir, thumb.suffix.lower())
+    if thumb != target:
+        if target.exists():
+            target.unlink()
+        thumb.replace(target)
+    return target
 
 
 def ffmpeg_exe() -> str | None:
@@ -479,16 +517,19 @@ def analysis_tags(path: Path, ffmpeg_location: str | None = None) -> tuple[list[
     return clean[:8], details
 
 
-def sidecars_for(path: Path) -> list[Path]:
-    candidates = [path.with_suffix(".json")]
-    candidates.extend(path.with_suffix(ext) for ext in (".jpg", ".jpeg", ".png", ".webp"))
+def sidecars_for(path: Path, output_dir: Path) -> list[Path]:
+    candidates = [metadata_path(path, output_dir), path.with_suffix(".json")]
+    for ext in (".jpg", ".jpeg", ".png", ".webp"):
+        candidates.extend([asset_path(path, output_dir, ext), path.with_suffix(ext)])
     return [item for item in candidates if item.exists()]
 
 
-def unique_analysis_path(path: Path, tags: list[str]) -> Path:
+def unique_analysis_path(path: Path, tags: list[str], output_dir: Path) -> Path:
     stem = path.stem
     old_tags = []
-    meta_path = path.with_suffix(".json")
+    meta_path = metadata_path(path, output_dir)
+    if not meta_path.exists():
+        meta_path = path.with_suffix(".json")
     try:
         metadata = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
         old_tags = [token(tag, "") for tag in metadata.get("analysis_tags", [])]
@@ -508,7 +549,8 @@ def unique_analysis_path(path: Path, tags: list[str]) -> Path:
 
 
 def latest_video(output_dir: Path) -> Path | None:
-    videos = [p for p in output_dir.glob("*") if p.suffix.lower() in VIDEO_EXTS]
+    roots = [videos_dir(output_dir), output_dir]
+    videos = [p for root in roots for p in root.glob("*") if p.suffix.lower() in VIDEO_EXTS]
     return max(videos, key=lambda p: p.stat().st_mtime) if videos else None
 
 
@@ -521,15 +563,17 @@ def analyze_and_rename(path: Path, output_dir: Path) -> dict:
     tags, details = analysis_tags(path, ffmpeg_location)
     if not tags:
         raise RuntimeError("Analysis produced no tags")
-    target = unique_analysis_path(path, tags)
-    old_sidecars = sidecars_for(path)
+    target = unique_analysis_path(path, tags, output_dir)
+    old_sidecars = sidecars_for(path, output_dir)
     if target != path:
         path.replace(target)
         for sidecar in old_sidecars:
-            new_sidecar = target.with_suffix(sidecar.suffix)
+            new_sidecar = asset_path(target, output_dir, sidecar.suffix)
             if sidecar.exists() and sidecar != new_sidecar:
                 sidecar.replace(new_sidecar)
-    meta_path = target.with_suffix(".json")
+    meta_path = metadata_path(target, output_dir)
+    if not meta_path.exists() and target.with_suffix(".json").exists():
+        target.with_suffix(".json").replace(meta_path)
     try:
         metadata = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
     except Exception:
@@ -545,7 +589,11 @@ def analyze_and_rename(path: Path, output_dir: Path) -> dict:
             "analyzed_at": time.strftime("%Y-%m-%d %H:%M:%S"),
         },
     })
-    thumb = find_thumb(target.with_suffix(""))
+    thumb = find_thumb(target.with_suffix("")) or next(
+        (asset_path(target, output_dir, ext) for ext in (".jpg", ".jpeg", ".png", ".webp")
+         if asset_path(target, output_dir, ext).exists()),
+        None,
+    )
     if thumb:
         metadata["thumbnail"] = str(thumb)
     meta_path.write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -575,7 +623,7 @@ def download_one(yt_dlp, ffmpeg_location: str | None, job: dict, body: dict,
     if keywords_token:
         stem_parts.append(keywords_token)
     stem_parts.append(title_token)
-    target = unique_path(output_dir, "__".join(stem_parts))
+    target = unique_path(videos_dir(output_dir), "__".join(stem_parts))
     no_ext = target.with_suffix("")
 
     def hook(event: dict) -> None:
@@ -613,7 +661,7 @@ def download_one(yt_dlp, ffmpeg_location: str | None, job: dict, body: dict,
         downloaded.replace(target)
         downloaded = target
 
-    thumb = find_thumb(no_ext)
+    thumb = move_thumb_to_assets(no_ext, downloaded, output_dir)
     metadata = {
         "source": source,
         "mode": body.get("mode", ""),
@@ -629,9 +677,11 @@ def download_one(yt_dlp, ffmpeg_location: str | None, job: dict, body: dict,
         "file": str(downloaded),
         "filename": downloaded.name,
         "ready_for": str(output_dir),
+        "videos_folder": str(videos_dir(output_dir)),
+        "assets_folder": str(assets_dir(output_dir)),
         "downloaded_at": time.strftime("%Y-%m-%d %H:%M:%S"),
     }
-    downloaded.with_suffix(".json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
+    metadata_path(downloaded, output_dir).write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
     return metadata
 
 
@@ -654,8 +704,10 @@ def worker(job_id: str, body: dict) -> None:
         ensure_dirs(output_dir)
         config = load_config()
         config["output_folder"] = str(output_dir)
+        config["auto_analyze"] = truthy(body.get("autoAnalyze") or body.get("auto_analyze"))
         save_config(config)
         mode = (body.get("mode") or "video").strip().lower()
+        auto_analyze = truthy(body.get("autoAnalyze") or body.get("auto_analyze"))
         max_items = max(1, min(int(body.get("limit") or 25), 100))
         input_urls = collect_input_urls(body.get("url", ""), body.get("bookmarksPath", ""))
         if not input_urls:
@@ -703,6 +755,16 @@ def worker(job_id: str, body: dict) -> None:
                 raise RuntimeError("STOPPED")
             try:
                 meta = download_one(yt_dlp, ffmpeg_location, job, body, output_dir, url, index, total)
+                if auto_analyze:
+                    job.update(status="analyzing", progress=min(98, round(5 + (index / total) * 90, 1)),
+                               message=f"VISUAL ANALYSIS {index}/{total}")
+                    try:
+                        analyzed = analyze_and_rename(Path(meta["file"]), output_dir)
+                        meta_path = metadata_path(Path(analyzed["file"]), output_dir)
+                        if meta_path.exists():
+                            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+                    except Exception as exc:  # noqa: BLE001
+                        errors.append(f"{url}: analysis skipped: {exc}")
                 files.append(meta["file"])
                 job.update(files=files, file=meta["file"], metadata=meta)
             except Exception as exc:  # noqa: BLE001
@@ -723,8 +785,18 @@ def worker(job_id: str, body: dict) -> None:
 def imports_payload(output_dir: Path | None = None) -> dict:
     target_dir = ensure_dirs(output_dir)
     items = []
-    for path in sorted(target_dir.glob("*.mp4"), key=lambda p: p.stat().st_mtime, reverse=True):
-        meta_path = path.with_suffix(".json")
+    roots = [videos_dir(target_dir), target_dir]
+    video_paths = []
+    seen_paths: set[Path] = set()
+    for root in roots:
+        for path in root.glob("*"):
+            if path.suffix.lower() in VIDEO_EXTS and path not in seen_paths:
+                seen_paths.add(path)
+                video_paths.append(path)
+    for path in sorted(video_paths, key=lambda p: p.stat().st_mtime, reverse=True):
+        meta_path = metadata_path(path, target_dir)
+        if not meta_path.exists():
+            meta_path = path.with_suffix(".json")
         try:
             meta = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
         except Exception:
@@ -736,7 +808,12 @@ def imports_payload(output_dir: Path | None = None) -> dict:
             "modified": path.stat().st_mtime,
             "metadata": meta,
         })
-    return {"folder": str(target_dir), "items": items}
+    return {
+        "folder": str(target_dir),
+        "videos_folder": str(videos_dir(target_dir)),
+        "assets_folder": str(assets_dir(target_dir)),
+        "items": items,
+    }
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -774,13 +851,20 @@ class Handler(BaseHTTPRequestHandler):
             self.send_json(404, {"error": "Logo not found"})
             return
         if path == "/api/imports":
-            self.send_json(200, imports_payload())
+            query = parse_qs(parsed.query)
+            output_value = (query.get("outputFolder") or query.get("output_folder") or [""])[0]
+            output_dir = resolve_output_dir(output_value) if output_value else resolve_output_dir()
+            self.send_json(200, imports_payload(output_dir))
             return
         if path == "/api/config":
             output_dir = resolve_output_dir()
+            config = load_config()
             self.send_json(200, {
                 "output_folder": str(output_dir),
                 "default_output_folder": str(DEFAULT_IMPORTS_DIR),
+                "videos_folder": str(videos_dir(output_dir)),
+                "assets_folder": str(assets_dir(output_dir)),
+                "auto_analyze": bool(config.get("auto_analyze")),
             })
             return
         match = re.match(r"^/api/jobs/([a-f0-9]+)$", path)
@@ -821,6 +905,8 @@ class Handler(BaseHTTPRequestHandler):
             output_dir = ensure_dirs(resolve_output_dir(body.get("outputFolder") or body.get("output_folder")))
             config = load_config()
             config["output_folder"] = str(output_dir)
+            if "autoAnalyze" in body or "auto_analyze" in body:
+                config["auto_analyze"] = truthy(body.get("autoAnalyze") or body.get("auto_analyze"))
             save_config(config)
             try:
                 if sys.platform == "darwin":
@@ -833,11 +919,54 @@ class Handler(BaseHTTPRequestHandler):
             except Exception as exc:  # noqa: BLE001
                 self.send_json(500, {"ok": False, "error": str(exc), "folder": str(output_dir)})
             return
+        if path == "/api/config":
+            body = self.read_json()
+            output_dir = ensure_dirs(resolve_output_dir(body.get("outputFolder") or body.get("output_folder")))
+            config = load_config()
+            config["output_folder"] = str(output_dir)
+            config["auto_analyze"] = truthy(body.get("autoAnalyze") or body.get("auto_analyze"))
+            save_config(config)
+            self.send_json(200, {
+                "ok": True,
+                "output_folder": str(output_dir),
+                "videos_folder": str(videos_dir(output_dir)),
+                "assets_folder": str(assets_dir(output_dir)),
+                "auto_analyze": bool(config.get("auto_analyze")),
+            })
+            return
+        if path == "/api/choose-folder":
+            body = self.read_json()
+            start_dir = ensure_dirs(resolve_output_dir(body.get("outputFolder") or body.get("output_folder")))
+            try:
+                if sys.platform != "darwin":
+                    raise RuntimeError("Folder picker is only available on macOS")
+                picked = subprocess.check_output([
+                    "osascript",
+                    "-e", "set defaultFolder to POSIX file " + json.dumps(str(start_dir)),
+                    "-e", 'POSIX path of (choose folder with prompt "Choose VIDZDOWNLOAD output folder" default location defaultFolder)',
+                ], text=True).strip()
+                output_dir = ensure_dirs(resolve_output_dir(picked))
+                config = load_config()
+                config["output_folder"] = str(output_dir)
+                if "autoAnalyze" in body or "auto_analyze" in body:
+                    config["auto_analyze"] = truthy(body.get("autoAnalyze") or body.get("auto_analyze"))
+                save_config(config)
+                self.send_json(200, {
+                    "ok": True,
+                    "output_folder": str(output_dir),
+                    "videos_folder": str(videos_dir(output_dir)),
+                    "assets_folder": str(assets_dir(output_dir)),
+                })
+            except Exception as exc:  # noqa: BLE001
+                self.send_json(500, {"ok": False, "error": str(exc)})
+            return
         if path == "/api/analyze-last":
             body = self.read_json()
             output_dir = ensure_dirs(resolve_output_dir(body.get("outputFolder") or body.get("output_folder")))
             config = load_config()
             config["output_folder"] = str(output_dir)
+            if "autoAnalyze" in body or "auto_analyze" in body:
+                config["auto_analyze"] = truthy(body.get("autoAnalyze") or body.get("auto_analyze"))
             save_config(config)
             raw_file = (body.get("file") or "").strip()
             target = None
