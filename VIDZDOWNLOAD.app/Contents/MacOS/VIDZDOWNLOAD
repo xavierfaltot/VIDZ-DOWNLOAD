@@ -5,6 +5,6 @@ PROJECT_DIR="$(cd "$APP_EXE_DIR/../../.." && pwd)"
 osascript <<APPLESCRIPT
 tell application "Terminal"
   activate
-  do script "cd " & quoted form of "$PROJECT_DIR" & " && if [ -x .venv/bin/python ]; then .venv/bin/python VIDZDOWNLOAD.py; else python3 VIDZDOWNLOAD.py; fi"
+  do script quoted form of "$PROJECT_DIR/VIDZDOWNLOAD.command"
 end tell
 APPLESCRIPT

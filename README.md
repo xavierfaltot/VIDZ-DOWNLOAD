@@ -21,6 +21,22 @@ It downloads videos from URLs, detects the source automatically, retrieves metad
 
 ## Install
 
+On macOS, double-click:
+
+```text
+VIDZDOWNLOAD.command
+```
+
+On first launch, VIDZDOWNLOAD creates a local `.venv` folder and downloads the required components automatically:
+
+- `yt-dlp` for downloads
+- `imageio-ffmpeg` / ffmpeg for video processing
+- `opencv-python-headless` for face detection during analysis
+
+You only need Python 3 and an internet connection for the first launch.
+
+Manual install:
+
 ```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
