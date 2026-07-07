@@ -1,6 +1,6 @@
 #!/bin/bash
 APP_EXE_DIR="$(cd "$(dirname "$0")" && pwd)"
-PROJECT_DIR="$(cd "$APP_EXE_DIR/../../.." && pwd)"
+PROJECT_DIR="$(cd "$APP_EXE_DIR/../Resources" && pwd)"
 
 osascript <<APPLESCRIPT
 tell application "Terminal"

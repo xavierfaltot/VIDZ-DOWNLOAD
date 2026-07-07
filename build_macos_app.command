@@ -36,7 +36,7 @@ PLIST
 cat > "$APP/Contents/MacOS/VIDZDOWNLOAD" <<'RUNNER'
 #!/bin/bash
 APP_EXE_DIR="$(cd "$(dirname "$0")" && pwd)"
-PROJECT_DIR="$(cd "$APP_EXE_DIR/../../.." && pwd)"
+PROJECT_DIR="$(cd "$APP_EXE_DIR/../Resources" && pwd)"
 
 osascript <<APPLESCRIPT
 tell application "Terminal"
@@ -49,6 +49,10 @@ RUNNER
 chmod +x "$APP/Contents/MacOS/VIDZDOWNLOAD"
 
 cp "$DIR/VIDZDOWNLOAD_LOGO.png" "$APP/Contents/Resources/VIDZDOWNLOAD_LOGO.png"
+cp "$DIR/VIDZDOWNLOAD.py" "$APP/Contents/Resources/VIDZDOWNLOAD.py"
+cp "$DIR/VIDZDOWNLOAD.command" "$APP/Contents/Resources/VIDZDOWNLOAD.command"
+cp "$DIR/requirements.txt" "$APP/Contents/Resources/requirements.txt"
+chmod +x "$APP/Contents/Resources/VIDZDOWNLOAD.command"
 
 if command -v SetFile >/dev/null 2>&1 && command -v sips >/dev/null 2>&1; then
   cp "$DIR/VIDZDOWNLOAD_LOGO.png" "$APP/Icon"$'\r'
