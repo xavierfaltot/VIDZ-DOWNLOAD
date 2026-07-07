@@ -7,8 +7,10 @@ It downloads videos from URLs, detects the source automatically, retrieves metad
 ## Features
 
 - Paste one URL or many URLs at once
+- Load URLs from a bookmark export file or a folder of bookmark files
 - Automatic source detection: YouTube, Instagram, Vimeo, generic web
 - Batch downloads with progress LEDs
+- Configurable output folder
 - Instagram carousel expansion: a post with several videos is queued item by item
 - Metadata JSON next to each video
 - Thumbnail download when available
@@ -31,11 +33,26 @@ python3 -m venv .venv
 
 The app opens in your browser.
 
-Downloaded videos are saved in:
+Downloaded videos are saved by default in:
 
 ```text
 VIDZ IMPORTS/
 ```
+
+You can change the final output folder directly in the app with the `OUTPUT FOLDER` field.
+
+## Bookmarks
+
+VIDZDOWNLOAD can also read URLs from a bookmarks source.
+
+Paste a path into `BOOKMARKS PATH`, for example:
+
+```text
+/Users/you/Desktop/bookmarks.html
+/Users/you/Desktop/VIDEO_BOOKMARKS/
+```
+
+Supported bookmark sources include `.html`, `.htm`, `.json`, `.txt`, `.url`, and `.webloc` files. If you give a folder, VIDZDOWNLOAD scans supported files inside it and extracts every URL it finds.
 
 ## macOS App
 

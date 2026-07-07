@@ -26,17 +26,18 @@
       <summary style="cursor:pointer;list-style:none;padding:14px 18px;color:#171006;background:linear-gradient(180deg,#ffbd5d,#df8420);font-weight:900;letter-spacing:2px;text-transform:uppercase;border-radius:2px;">FR · Article en français</summary>
       <div style="padding:22px;background:repeating-linear-gradient(0deg,rgba(255,159,47,.045) 0 1px,transparent 1px 3px),#150701;">
         <h2 style="margin:0 0 14px;color:#ff9f2f;font-size:25px;line-height:1.2;text-transform:uppercase;">À quoi sert VIDZDOWNLOAD ?</h2>
-        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">VIDZDOWNLOAD est un petit boîtier logiciel dédié à une seule opération : récupérer des vidéos depuis des liens, les nommer proprement, extraire leurs métadonnées et les déposer dans un dossier d’import. Il ne remplace pas un logiciel de montage. Il agit avant le montage, comme une machine d’ingest.</p>
-        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">L’utilisateur colle une ou plusieurs URLs, par exemple des reels Instagram, des posts carrousel, des vidéos YouTube ou des liens Vimeo. Le système détecte la source automatiquement. Il n’y a pas de menu compliqué : START lance le download, FOLDER ouvre le dossier, STOP interrompt la tâche.</p>
+        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">VIDZDOWNLOAD est un petit boîtier logiciel dédié à une seule opération : récupérer des vidéos depuis des liens, les nommer proprement, extraire leurs métadonnées et les déposer dans le dossier choisi par l’utilisateur. Il ne remplace pas un logiciel de montage. Il agit avant le montage, comme une machine d’ingest.</p>
+        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">L’utilisateur colle une ou plusieurs URLs, par exemple des reels Instagram, des posts carrousel, des vidéos YouTube ou des liens Vimeo. Il peut aussi indiquer un fichier export de bookmarks ou un dossier contenant des bookmarks. Le système extrait les URLs, détecte la source automatiquement et dépose les vidéos dans le dossier final paramétré.</p>
 
         <h3 style="margin:26px 0 12px;color:#bd6a1f;font-size:18px;text-transform:uppercase;letter-spacing:2px;">Comment ça marche ?</h3>
         <ul style="margin:0 0 18px;padding-left:22px;color:#efe1c6;font-size:17px;line-height:1.75;">
           <li>VIDZDOWNLOAD lit les URLs collées dans le champ d’entrée.</li>
+          <li>Il peut aussi lire un export de bookmarks ou un dossier contenant des fichiers `.html`, `.json`, `.txt`, `.url` ou `.webloc`.</li>
           <li>Il détecte la source depuis l’adresse : Instagram, YouTube, Vimeo ou web générique.</li>
           <li>Il télécharge chaque vidéo avec son titre, sa chaîne, sa date et sa miniature quand elles sont disponibles.</li>
           <li>Quand une URL Instagram contient un carrousel, il ajoute les vidéos disponibles une par une à la file de téléchargement.</li>
           <li>Il fabrique un nom de fichier lisible avec artiste, collection, mots-clés et titre.</li>
-          <li>Il range tout dans le dossier <strong>VIDZ IMPORTS</strong>, prêt pour un workflow de montage.</li>
+          <li>Il range tout dans le dossier final choisi dans <strong>OUTPUT FOLDER</strong>, par défaut <strong>VIDZ IMPORTS</strong>.</li>
         </ul>
 
         <h3 style="margin:26px 0 12px;color:#bd6a1f;font-size:18px;text-transform:uppercase;letter-spacing:2px;">Pourquoi cette forme ?</h3>
@@ -58,17 +59,18 @@
       <summary style="cursor:pointer;list-style:none;padding:14px 18px;color:#171006;background:linear-gradient(180deg,#d4c7a9,#9f8f70);font-weight:900;letter-spacing:2px;text-transform:uppercase;border-radius:2px;">EN · Article in English</summary>
       <div style="padding:22px;background:repeating-linear-gradient(0deg,rgba(255,159,47,.045) 0 1px,transparent 1px 3px),#150701;">
         <h2 style="margin:0 0 14px;color:#ff9f2f;font-size:25px;line-height:1.2;text-transform:uppercase;">What is VIDZDOWNLOAD for?</h2>
-        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">VIDZDOWNLOAD is a small software box dedicated to one operation: collecting videos from links, naming them cleanly, extracting metadata and placing them into an import folder. It does not replace editing software. It works before editing, like an ingest machine.</p>
-        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">The user pastes one or many URLs, such as Instagram reels, carousel posts, YouTube videos or Vimeo links. The system detects the source automatically. There is no complicated menu: START downloads, FOLDER opens the destination folder, STOP interrupts the task.</p>
+        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">VIDZDOWNLOAD is a small software box dedicated to one operation: collecting videos from links, naming them cleanly, extracting metadata and placing them into the output folder chosen by the user. It does not replace editing software. It works before editing, like an ingest machine.</p>
+        <p style="margin:0 0 16px;color:#efe1c6;font-size:17px;line-height:1.75;">The user pastes one or many URLs, such as Instagram reels, carousel posts, YouTube videos or Vimeo links. They can also point the app to a bookmark export file or a folder containing bookmarks. The system extracts URLs, detects the source automatically and stores videos in the configured final folder.</p>
 
         <h3 style="margin:26px 0 12px;color:#bd6a1f;font-size:18px;text-transform:uppercase;letter-spacing:2px;">How does it work?</h3>
         <ul style="margin:0 0 18px;padding-left:22px;color:#efe1c6;font-size:17px;line-height:1.75;">
           <li>VIDZDOWNLOAD reads the URLs pasted into the input field.</li>
+          <li>It can also read a bookmark export or a folder containing `.html`, `.json`, `.txt`, `.url` or `.webloc` files.</li>
           <li>It detects the source from the address: Instagram, YouTube, Vimeo or generic web.</li>
           <li>It downloads each video with title, channel, date and thumbnail when available.</li>
           <li>When an Instagram URL contains a carousel, it queues the available videos one by one.</li>
           <li>It creates readable filenames with artist, collection, keywords and title.</li>
-          <li>It stores everything in <strong>VIDZ IMPORTS</strong>, ready for an editing workflow.</li>
+          <li>It stores everything in the final folder chosen in <strong>OUTPUT FOLDER</strong>, defaulting to <strong>VIDZ IMPORTS</strong>.</li>
         </ul>
 
         <h3 style="margin:26px 0 12px;color:#bd6a1f;font-size:18px;text-transform:uppercase;letter-spacing:2px;">Why this shape?</h3>

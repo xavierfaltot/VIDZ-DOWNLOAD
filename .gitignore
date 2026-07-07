@@ -7,6 +7,7 @@ env/
 
 VIDZ IMPORTS/
 VIDZ_COOKIES.txt
+VIDZDOWNLOAD_CONFIG.json
 
 *.mp4
 *.mov
