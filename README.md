@@ -1,8 +1,12 @@
 # VIDZDOWNLOAD
 
-VIDZDOWNLOAD is a small local video ingest machine.
+VIDZDOWNLOAD is a local video ingest tool built for creators, editors, and visual researchers.
 
-It downloads videos from URLs, detects the source automatically, retrieves metadata and thumbnails, and writes everything into a local `VIDZ IMPORTS` folder.
+It downloads videos from online links, detects the source automatically, retrieves metadata and thumbnails, and stores everything in a clean local structure. Videos are saved in a `VIDEOS` folder, while JSON metadata, thumbnails, and image assets are stored separately in `ASSETS`.
+
+The app supports single URLs, batches of URLs, bookmark exports, playlists, Instagram reels, and carousel posts when available through the downloader. It includes an `AUTO ANALYZE` mode that can analyze each downloaded video locally and append visual tags to the filename, such as dominant color, brightness, motion, format, duration, and face detection when available.
+
+VIDZDOWNLOAD is designed like a dedicated machine: one purpose, minimal interface, no complex menus. Paste links, choose an output folder, press `START`, and let the system prepare the files for editing or archival workflows.
 
 ## Features
 
